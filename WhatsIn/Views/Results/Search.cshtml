@@ -1,0 +1,12 @@
+﻿@model WhatsIn.Models.ServiceModel
+<h4>Search again</h4><br />
+
+@using (Html.BeginForm("", "Results", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Location, new { @class = "form-control", placeholder = "Location: Ex. Santa Rosa, Laguna, Quezon City", style = "width:350px" })
+    </div>
+    <div class="form-group">
+    </div>
+    <button type="submit" class="btn btn-success">Search</button>
+}
