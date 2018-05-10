@@ -126,6 +126,7 @@ namespace WhatsIn.Controllers
                 model.ServiceName = service.Name;
                 model.ServiceType = service.Type;
                 model.ServiceProvides = service.ServiceProvides;
+                model.ServiceAddress = service.Address;
                 model.ServiceLocation = service.Location;
                 model.ServicePhoneNumber = service.PhoneNumber;
                 model.ServiceSchedule = service.Schedule;

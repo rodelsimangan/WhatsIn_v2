@@ -4,7 +4,10 @@
     <div class="col-md-9">
         <div class="row">
             <h3>@Model.ServiceName</h3>
+            <h4>@Model.ServiceAddress</h4><br /><br />
             <h4>@Model.ServiceLocation</h4><br /><br />
+            @Html.HiddenFor(m => m.ServiceAddress)
+            @Html.HiddenFor(m => m.ServiceLocation)
         </div>
         <div class="row">
             <div class="col-md-8">
@@ -21,6 +24,36 @@
         <div class="row">
             <div class="form-group">
                 <p style="white-space:pre-wrap;">@Model.ServiceProvides</p>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                &nbsp;
+            </div>
+            <div class="form-group">
+                <label class="control-label">Contact No.(s):</label>
+                <p><a href="tel:@Model.UserContactNumber">@Model.UserContactNumber</a></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label">Schedule:</label>
+                <p style="white-space:pre-wrap;">@Model.ServiceSchedule</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <p>
+                    <a href="@string.Concat(" https://www.facebook.com/", Model.ServiceFacebookPage.Substring(3))">@*Model.ServiceFacebookPage*@ <i class="fa fa-facebook fa-2x"></i></a>
+                    &nbsp;<a href="@string.Concat(" https://www.twitter.com/", Model.ServiceTwitterPage.Substring(8))">@*Model.ServiceTwitterPage*@ <i class="fa fa-twitter fa-2x"></i></a>
+                    &nbsp;<a href="@string.Concat(" https://www.instagram.com/", Model.ServiceInstagramPage.Substring(10))">@*Model.ServiceInstagramPage*@ <i class="fa fa-instagram fa-2x"></i></a>
+                    &nbsp;<a href="@Model.ServiceWebsiteAddress" target="_blank">@*Model.ServiceWebsiteAddress*@ <i class="fa fa-link fa-2x"></i></a>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <div id="map" style="height: 300px"></div>
             </div>
         </div>
     </div>
@@ -45,7 +78,7 @@
                 <p>@*Model.UserLocation*@</p>
             </div>
         </div-->
-        <div class="row">
+        <!--div class="row">
             <div>
                 &nbsp;
             </div>
@@ -86,7 +119,7 @@
             <div class="form-group">
                 <p><i class="fa fa-link fa-2x"></i>&nbsp;<a href="@Model.ServiceWebsiteAddress" target="_blank">@Model.ServiceWebsiteAddress</a></p>
             </div>
-        </div>
+        </div-->
 
         <div class="row">
             <div>
@@ -264,9 +297,6 @@
             }
         });
 
-        $('.scroll').jscroll({
-            autoTrigger: false
-        })
     });
 
     $("#rating-positive").on("click", function () {
@@ -358,4 +388,40 @@
         });
     });
 
+
+
 </script>
+<script>
+    function initMap() {
+        var uluru = { lat: -25.363, lng: 131.044 };
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+        });
+
+        var geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map);
+     }
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('ServiceAddress').value;
+        var location = document.getElementById('ServiceLocation').value;
+        var fulladdress = address + ' ' + location
+        geocoder.geocode({ 'address': fulladdress }, function (results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzzjc4KZD6yKQEuXi-DDa5BWt3iN09joo&callback=initMap"></script>

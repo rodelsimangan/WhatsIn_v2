@@ -13,6 +13,7 @@ namespace WhatsIn.Models
         public string ServiceName { get; set; }
         public string ServiceType { get; set; }
         public string ServiceProvides { get; set; }
+        public string ServiceAddress { get; set; }
         public string ServiceLocation { get; set; }
         public string ServicePhoneNumber { get; set; }
         public string ServiceSchedule { get; set; }

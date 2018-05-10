@@ -1,7 +1,7 @@
 ﻿@model List<WhatsIn.Models.ServiceModel>
 
 @{
-    ViewBag.Title = "My Services";
+    ViewBag.Title = "My Establishment";
 }
 
 <div class="row margin-top-15">
@@ -10,7 +10,7 @@
             <div class="page-head">
                 <div class="page-title">
                     <h1>
-                        <span>My Services</span>
+                        <span>My Establishment</span>
                     </h1>
                 </div>
             </div>
@@ -70,8 +70,12 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="service-provides" class="control-label">Describe your service</label>
-                        <textarea class="form-control" rows="5" id="service-provides" placeholder="Type in to describe the service."></textarea>
+                        <label for="service-provides" class="control-label">Describe your establishment.</label>
+                        <textarea class="form-control" rows="5" id="service-provides" placeholder="Type in to describe the establishment."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-location" class="control-label">Your address</label>
+                        <input class="form-control" id="service-address" placeholder="Floor/Bldg/House No., Street, Subdivision, Barangay">
                     </div>
                     <div class="form-group">
                         <label for="service-location" class="control-label">Your location</label>
@@ -83,7 +87,7 @@
                     </div>
                     <div class="form-group">
                         <label for="service-schedule" class="control-label">Your Schedules</label>
-                        <textarea class="form-control" rows="3" id="service-schedule" placeholder="Type in to enter your service schedule."></textarea>
+                        <textarea class="form-control" rows="3" id="service-schedule" placeholder="Type in to enter your establishment's schedule."></textarea>
                     </div>
                     <div class="form-group">
                         <label for="service-facebookpage" class="control-label">Your Facebook Page</label>
@@ -156,6 +160,7 @@
         var serviceName = $('#service-name').val();
         var serviceType = $('#service-type').val();
         var serviceProvides = $('#service-provides').val();
+        var serviceAdd = $('#service-address').val();
         var serviceLoc = $('#service-location').val();
         var servicePhoneNum = $('#service-phonenumber').val();
         var serviceSched = $('#service-schedule').val();
@@ -172,6 +177,7 @@
                 name: serviceName,
                 type: serviceType,
                 serviceprovides: serviceProvides,
+                address: serviceAdd,
                 location: serviceLoc,
                 phonenumber: servicePhoneNum,
                 schedule: serviceSched,
@@ -201,6 +207,7 @@
                 $('#service-name').val(data.Name);
                 $('#service-type').val(data.Type);
                 $('#service-provides').val(data.ServiceProvides);
+                $('#service-address').val(data.Address);
                 $('#service-location').val(data.Location);
                 $('#service-phonenumber').val(data.PhoneNumber);
                 $('#service-schedule').val(data.Schedule);
