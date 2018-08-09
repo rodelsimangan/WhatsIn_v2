@@ -199,14 +199,14 @@ namespace WhatsIn.Controllers
             try
             {
                 WebMail.SmtpServer = ConfigurationManager.AppSettings["mailHost"];
-                WebMail.From = ConfigurationManager.AppSettings["mailAccount"];
+                WebMail.From = ConfigurationManager.AppSettings["mailFrom"];
                 WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["mailPort"]);
                 WebMail.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["enableSsl"]);
                 WebMail.UserName = ConfigurationManager.AppSettings["mailAccount"];
                 WebMail.Password = ConfigurationManager.AppSettings["mailPassword"];
 
                 WebMail.Send(
-                 to: ConfigurationManager.AppSettings["mailAccount"],
+                 to: ConfigurationManager.AppSettings["mailTo"],
                  subject: string.Concat(model.Name, " - ", model.EmailAddress),
                  body: model.Content,
                  isBodyHtml: true
