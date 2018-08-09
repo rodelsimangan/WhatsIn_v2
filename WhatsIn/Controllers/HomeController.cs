@@ -5,11 +5,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.IO;
+using System.Web.Helpers;
 
 using WhatsIn.Models;
 using WhatsIn.AppServices;
-using System.IO;
-using System.Web.Helpers;
+using System.Configuration;
 
 namespace WhatsIn.Controllers
 {
@@ -100,7 +101,11 @@ namespace WhatsIn.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-
+        public ActionResult RemoveService(int ServiceId)
+        {
+            _services.RemoveService(ServiceId);
+            return RedirectToAction("MyServices");
+        }
         public PartialViewResult MyServiceImages(int ServiceId)
         {
             TempData["ServiceId"] = ServiceId;
@@ -190,9 +195,28 @@ namespace WhatsIn.Controllers
         }
 
         public ActionResult SendMessage(MessageModel model)
-        {
-            _message.UpsertMessage(model);
-            ViewBag.Message = "Your message has been sent.";
+        {            
+            try
+            {
+                WebMail.SmtpServer = ConfigurationManager.AppSettings["mailHost"];
+                WebMail.From = ConfigurationManager.AppSettings["mailAccount"];
+                WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["mailPort"]);
+                WebMail.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["enableSsl"]);
+                WebMail.UserName = ConfigurationManager.AppSettings["mailAccount"];
+                WebMail.Password = ConfigurationManager.AppSettings["mailPassword"];
+
+                WebMail.Send(
+                 to: ConfigurationManager.AppSettings["mailAccount"],
+                 subject: string.Concat(model.Name, " - ", model.EmailAddress),
+                 body: model.Content,
+                 isBodyHtml: true
+                );
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
             return RedirectToAction("");
         }
 

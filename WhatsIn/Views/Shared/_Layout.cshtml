@@ -13,8 +13,8 @@
         -->
     <!-- favicon -->
     <!--link rel="shortcut icon" href="~/images/whats_in__icon_sm.png" type="image/x-icon"-->
-    <!--link rel="icon" href="~/images/whats_in__icon_sm.png"-->
-    <link rel="icon" href="~/images/favicon.ico">
+    <link rel="icon" href="~/images/whats_in__icon_sm.png" type="image/x-icon"/>
+    <!--link rel="icon" href="~/images/favicon.ico"-->
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -40,15 +40,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    @if (User.Identity.IsAuthenticated)
+                    @*if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("My Services", "MyServices", "Home")</li>
 
-                    }
-                    <!--li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li-->
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    }*@
+                    <li>@Html.ActionLink("About", "Index", "Home", "", "", "about", null, null)</li>
+                    <li>@Html.ActionLink("Contact", "Index", "Home","","", "contact",null,null)</li>
+                    <!--li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li-->
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

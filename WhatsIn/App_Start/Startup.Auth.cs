@@ -66,7 +66,7 @@ namespace WhatsIn
             options.Scope.Add("public_profile");
             options.Scope.Add("email");
             options.Scope.Add("user_photos");
-            options.Scope.Add("user_about_me");
+            //options.Scope.Add("user_about_me");
             app.UseFacebookAuthentication(options);
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()

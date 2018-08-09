@@ -388,6 +388,7 @@
     <Content Include="Views\Results\ShowNegativeComments.cshtml" />
     <Content Include="Views\Results\ShowPositiveComments.cshtml" />
     <Content Include="Views\Home\Disclaimer.cshtml" />
+    <Content Include="Views\Home\ServiceList - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
