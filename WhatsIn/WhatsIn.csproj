@@ -339,7 +339,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -389,6 +391,12 @@
     <Content Include="Views\Results\ShowPositiveComments.cshtml" />
     <Content Include="Views\Home\Disclaimer.cshtml" />
     <Content Include="Views\Home\ServiceList - Copy.cshtml" />
+    <Content Include="Views\Results\HotelAndAccomodationsList.cshtml" />
+    <Content Include="Views\Results\TouristSpotsList.cshtml" />
+    <Content Include="Views\Results\BeautyAndRelaxationList.cshtml" />
+    <Content Include="Views\Results\SportsAndRecreationList.cshtml" />
+    <Content Include="Views\Results\ShoppingAndSouvenirsList.cshtml" />
+    <Content Include="Views\Results\FoodAndDiningList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -72,7 +72,7 @@ namespace WhatsIn.AppServices
 
                 var query = from q in _context.Services
                             where q.IsDeleted == false || q.IsDeleted == null
-                            && (string.IsNullOrEmpty(type) || q.Name.ToLower().Contains(type.ToLower())) && (string.IsNullOrEmpty(location) || q.Location.ToLower().Contains(location.ToLower()))
+                            && (string.IsNullOrEmpty(type) || q.Type.ToLower().Contains(type.ToLower())) && (string.IsNullOrEmpty(location) || q.Location.ToLower().Contains(location.ToLower()))
                             select q;
 
                 var services = query.ToList().Skip(startIndex).Take(BlockSize);
@@ -84,6 +84,7 @@ namespace WhatsIn.AppServices
             }
         }
 
+       
         public ServiceModel GetService(int ServiceId)
         {
             try

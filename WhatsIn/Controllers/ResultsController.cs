@@ -35,8 +35,39 @@ namespace WhatsIn.Controllers
         public ActionResult Index(string location, string type)
         {
             int BlockSize = 9;
-            List<ServiceModel> model = _services.GetServices(location, type, 1, BlockSize);
-            ViewBag.Message = string.Format("{0} Result(s) in {1}", model.Count(), location);
+            List<ServiceModel> list = new List<ServiceModel>();
+
+            ViewBag.All = _services.CountServices(location, "");
+            ViewBag.Message = string.Format("{0} Result(s) in {1}", list.Count(), location);
+            ViewBag.FoodAndDiningCount = _services.CountServices(location, "Food And Dining");
+            ViewBag.HotelAndAccomodationsCount = _services.CountServices(location, "Hotel and Accomodations");
+            ViewBag.TouristSpots = _services.CountServices(location, "Tourist Spots");
+            ViewBag.BeautyAndRelaxation = _services.CountServices(location, "Beauty and Relaxation");
+            ViewBag.SportsAndRecreation = _services.CountServices(location, "Sports and Recreation");
+            ViewBag.ShoppingAndSouvenirs = _services.CountServices(location, "Shopping and Souvenirs");
+          
+            
+            if (type == "All" || type == null)
+            { 
+                list = _services.GetServices(location, "", 1, BlockSize);
+                type = "All";
+            }
+            else
+                list = _services.GetServices(location, type, 1, BlockSize);
+            //TempData["Type"] = type;
+            ViewBag.Type = type;
+            ViewBag.Location = location;
+            
+            return View(list);
+        }
+
+        public ActionResult GetResult(string location, string type)
+        {
+            int BlockSize = 9;
+            List<ServiceModel> list = new List<ServiceModel>();
+
+            ViewBag.All = _services.CountServices(location, "");
+            ViewBag.Message = string.Format("{0} Result(s) in {1}", list.Count(), location);
             ViewBag.FoodAndDiningCount = _services.CountServices(location, "Food And Dining");
             ViewBag.HotelAndAccomodationsCount = _services.CountServices(location, "Hotel and Accomodations");
             ViewBag.TouristSpots = _services.CountServices(location, "Tourist Spots");
@@ -45,13 +76,21 @@ namespace WhatsIn.Controllers
             ViewBag.ShoppingAndSouvenirs = _services.CountServices(location, "Shopping and Souvenirs");
 
 
-            return View(model);
-        }
+            if (type == "All" || type == null)
+            {
+                list = _services.GetServices(location, "", 1, BlockSize);
+                type = "All";
+            }
+            else
+                list = _services.GetServices(location, type, 1, BlockSize);
+            //TempData["Type"] = type;
+            ViewBag.Type = type;
+            ViewBag.Location = location;
+            JsonModel jsonModel = new JsonModel();
+            jsonModel.HTMLString = RenderPartialViewToString("ServiceList", list);
 
-        [ChildActionOnly]
-        public ActionResult ServiceList(List<ServiceModel> Model)
-        {
-            return PartialView(Model);
+            return Json(jsonModel);
+            //return View(list);
         }
 
         [HttpPost]
@@ -71,6 +110,27 @@ namespace WhatsIn.Controllers
             return Json(jsonModel);
         }
 
+        [HttpPost]
+        public ActionResult InfinateScrollMobile(string location, string type, int BlockNumber)
+        {
+            //////////////// THis line of code only for demo. Needs to be removed ///////////////
+            System.Threading.Thread.Sleep(3000);
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+            int BlockSize = 1;
+            var books = _services.GetServices(location, type, BlockNumber, BlockSize);
+
+            JsonModel jsonModel = new JsonModel();
+            jsonModel.NoMoreData = books.Count < BlockSize;
+            jsonModel.HTMLString = RenderPartialViewToString("ServiceList", books);
+
+            return Json(jsonModel);
+        }
+
+        public ActionResult Search(ServiceModel model)
+        {
+            return PartialView(model);
+        }
         protected string RenderPartialViewToString(string viewName, object model)
         {
             if (string.IsNullOrEmpty(viewName))
