@@ -7,10 +7,13 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.IO;
 using System.Web.Helpers;
+using System.Configuration;
 
 using WhatsIn.Models;
 using WhatsIn.AppServices;
-using System.Configuration;
+using WhatsIn.Util;
+
+
 
 namespace WhatsIn.Controllers
 {
@@ -80,31 +83,63 @@ namespace WhatsIn.Controllers
 
         public ActionResult MyServices()
         {
-            ViewBag.Message = "My Services.";
-            var userId = _membership.GetUserId(User.Identity.Name);
-            List<ServiceModel> model = _services.GetServices(userId);
-            return View(model);
+            try
+            {
+                ViewBag.Message = "My Services.";
+                var userId = _membership.GetUserId(User.Identity.Name);
+                List<ServiceModel> model = _services.GetServices(userId);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
         }
 
         public ActionResult AddNewService(ServiceModel model)
         {
-            var userId = _membership.GetUserId(User.Identity.Name);
-            model.UserId = userId;
-            _services.UpsertService(model);
-            return RedirectToAction("MyServices");
+            try
+            {
+                var userId = _membership.GetUserId(User.Identity.Name);
+                model.UserId = userId;
+                _services.UpsertService(model);
+                return RedirectToAction("MyServices");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
         }
 
         [HttpGet]
         public JsonResult GetMyService(int ServiceId)
         {
-            var model = _services.GetService(ServiceId);
-            return Json(model, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var model = _services.GetService(ServiceId);
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
         }
 
         public ActionResult RemoveService(int ServiceId)
         {
-            _services.RemoveService(ServiceId);
-            return RedirectToAction("MyServices");
+            try
+            {
+                _services.RemoveService(ServiceId);
+                return RedirectToAction("MyServices");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
         }
         public PartialViewResult MyServiceImages(int ServiceId)
         {
@@ -118,63 +153,95 @@ namespace WhatsIn.Controllers
         [HttpGet]
         public PartialViewResult GetMyServiceImages()
         {
-            int ServiceId = int.Parse(TempData["ServiceId"].ToString());
-            var model = _serviceImages.GetServiceImages(ServiceId);
-            ViewBag.Message = "My Service Images.";
-            return PartialView(model);
+            try
+            {
+                int ServiceId = int.Parse(TempData["ServiceId"].ToString());
+                var model = _serviceImages.GetServiceImages(ServiceId);
+                ViewBag.Message = "My Service Images.";
+                return PartialView(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public JsonResult UploadServiceImage()
         {
-            string _imgname = string.Empty;
-            string _comPath = string.Empty;
-
-            TempData.Keep("ServiceId");
-
-            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+            try
             {
-                var pic = System.Web.HttpContext.Current.Request.Files["MyImages"];
-                if (pic.ContentLength > 0)
+                string _imgname = string.Empty;
+                string _comPath = string.Empty;
+
+                TempData.Keep("ServiceId");
+
+                if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
                 {
-                    var fileName = Path.GetFileName(pic.FileName);
-                    var _ext = Path.GetExtension(pic.FileName);
+                    var pic = System.Web.HttpContext.Current.Request.Files["MyImages"];
+                    if (pic.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(pic.FileName);
+                        var _ext = Path.GetExtension(pic.FileName);
 
-                    _imgname = Guid.NewGuid().ToString();
-                    _comPath = string.Concat(Server.MapPath("/Uploads/ServiceImages/"), TempData["ServiceId"], "_", _imgname, _ext);
-                    _imgname = string.Concat(TempData["ServiceId"], "_", _imgname, _ext);
+                        _imgname = Guid.NewGuid().ToString();
+                        _comPath = string.Concat(Server.MapPath("/Uploads/ServiceImages/"), TempData["ServiceId"], "_", _imgname, _ext);
+                        _imgname = string.Concat(TempData["ServiceId"], "_", _imgname, _ext);
 
-                    ViewBag.Msg = _comPath;
-                    var path = _comPath;
+                        ViewBag.Msg = _comPath;
+                        var path = _comPath;
 
-                    // Saving Image in Original Mode
-                    pic.SaveAs(path);
+                        // Saving Image in Original Mode
+                        pic.SaveAs(path);
 
-                    // resizing image
-                    MemoryStream ms = new MemoryStream();
-                    WebImage img = new WebImage(_comPath);
+                        // resizing image
+                        MemoryStream ms = new MemoryStream();
+                        WebImage img = new WebImage(_comPath);
 
-                    //if (img.Width > 200)
-                    //    img.Resize(200, 200);
-                    img.Save(_comPath);
-                    // end resize
+                        //if (img.Width > 200)
+                        //    img.Resize(200, 200);
+                        img.Save(_comPath);
+                        // end resize
+                    }
                 }
+                return Json(Convert.ToString(_imgname), JsonRequestBehavior.AllowGet);
             }
-            return Json(Convert.ToString(_imgname), JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
         }
 
         public ActionResult AddNewServiceImage(ServiceImageModel model)
         {
-            _serviceImages.UpsertServiceImage(model);
-            return RedirectToAction("MyServiceImages", new { ServiceId = model.ServiceId });
+            try
+            {
+                _serviceImages.UpsertServiceImage(model);
+                return RedirectToAction("MyServiceImages", new { ServiceId = model.ServiceId });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
         }
 
         public ActionResult DeleteServiceImage(int ServiceImageId)
         {
-            var model = _serviceImages.GetServiceImage(ServiceImageId);
-            model.IsDeleted = true;
-            _serviceImages.UpsertServiceImage(model);
-            return RedirectToAction("MyServiceImages", new { ServiceId = model.ServiceId });
+            try
+            {
+                var model = _serviceImages.GetServiceImage(ServiceImageId);
+                model.IsDeleted = true;
+                _serviceImages.UpsertServiceImage(model);
+                return RedirectToAction("MyServiceImages", new { ServiceId = model.ServiceId });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
         }
 
         public JsonResult GetMyFirstServiceImage(int ServiceId)
@@ -188,21 +255,22 @@ namespace WhatsIn.Controllers
                 else
                     return Json(string.Empty, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.LogError(this.GetType(), ex);
                 return Json(string.Empty, JsonRequestBehavior.AllowGet);
             }
         }
 
         public ActionResult SendMessage(MessageModel model)
-        {            
+        {
             try
             {
                 WebMail.SmtpServer = ConfigurationManager.AppSettings["mailHost"];
                 WebMail.From = ConfigurationManager.AppSettings["mailFrom"];
                 WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["mailPort"]);
                 WebMail.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["enableSsl"]);
-                WebMail.UserName = ConfigurationManager.AppSettings["mailAccount"];
+                WebMail.UserName = ConfigurationManager.AppSettings["mailFrom"];
                 WebMail.Password = ConfigurationManager.AppSettings["mailPassword"];
 
                 WebMail.Send(
@@ -214,6 +282,7 @@ namespace WhatsIn.Controllers
             }
             catch (Exception ex)
             {
+                Logger.LogError(this.GetType(), ex);
                 throw ex;
             }
 
