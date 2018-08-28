@@ -268,8 +268,8 @@ namespace WhatsIn.Controllers
             {
                 WebMail.SmtpServer = ConfigurationManager.AppSettings["mailHost"];
                 WebMail.From = ConfigurationManager.AppSettings["mailFrom"];
-                WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["mailPort"]);
-                WebMail.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["enableSsl"]);
+                //WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["mailPort"]);
+                //WebMail.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["enableSsl"]);
                 WebMail.UserName = ConfigurationManager.AppSettings["mailFrom"];
                 WebMail.Password = ConfigurationManager.AppSettings["mailPassword"];
 
@@ -279,6 +279,8 @@ namespace WhatsIn.Controllers
                  body: model.Content,
                  isBodyHtml: true
                 );
+
+                return RedirectToAction("");
             }
             catch (Exception ex)
             {
@@ -286,7 +288,6 @@ namespace WhatsIn.Controllers
                 throw ex;
             }
 
-            return RedirectToAction("");
         }
 
         [ChildActionOnly]
