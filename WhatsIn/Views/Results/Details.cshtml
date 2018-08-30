@@ -67,7 +67,7 @@
                     </div>
                     <div class="text-right">
                         <button type="button" class="btn btn-success" id="btnOpenWaze">
-                            <i class="fa fa-car fa-2x"></i> Get Direction
+                            <i class="fa fa-car fa-2x"></i> Navigate
                         </button>
                         <input type="hidden" id="latlong" class="form-group" />
                     </div>
@@ -352,7 +352,9 @@
 
      $('#btnOpenWaze').click(function (e) {
          e.preventDefault();
-         var url = "https://waze.com/ul?ll=" + $('#latlong').val() + "&navigate=yes";
+		 var cleanslatlong = $('#latlong').val().replace("(", "");
+		 var latlong = cleanslatlong.replace(")", "");
+         var url = "https://waze.com/ul?ll=" + latlong + "&navigate=yes";
          window.open(url, '_blank');       
     });  
 
