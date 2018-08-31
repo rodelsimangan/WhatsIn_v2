@@ -5,8 +5,8 @@
 <h2>@ViewBag.Title.</h2>
 <h4>
     You've successfully authenticated with <strong>@ViewBag.LoginProvider</strong>.
-    Please fill-up below details for this site below and click the Register button to finish
-    logging in.
+    Please fill-up below details for this site and click the Register button to finish
+    the registration.
 </h4>
 @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
@@ -37,7 +37,7 @@
     <div class="form-group text-center">
         @Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label left" })
         <div class="col-md-5">
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "true" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-3">&nbsp;</div>
@@ -51,21 +51,21 @@
         <div class="col-md-3">&nbsp;</div>
     </div>
     <div class="form-group">
+        @Html.LabelFor(m => m.Address, new { @class = "col-md-4 control-label left" })
+        <div class="col-md-5">
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger", @width = "150"  })
+        </div>
+        <div class="col-md-3">&nbsp;</div>
+    </div>   
+    <div class="form-group">
         @Html.LabelFor(m => m.Location, new { @class = "col-md-4 control-label left" })
         <div class="col-md-5">
             @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger", @width = "150" })
         </div>
         <div class="col-md-3">&nbsp;</div>
-    </div>
-    <!--div class="form-group">
-        @*Html.LabelFor(m => m.Location, new { @class = "col-md-4 control-label left" })*@
-        <div class="col-md-5">
-            @*Html.TextBoxFor(m => m.Location, new { @class = "form-control" })*@
-            @*Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })*@
-        </div>
-        <div class="col-md-3">&nbsp;</div>
-    </div-->
+    </div>   
     <div class="form-group">
         @Html.LabelFor(m => m.ContactNumber, new { @class = "col-md-4 control-label left" })
         <div class="col-md-5">

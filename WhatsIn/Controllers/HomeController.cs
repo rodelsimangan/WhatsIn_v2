@@ -8,7 +8,7 @@ using System.Web.Security;
 using System.IO;
 using System.Web.Helpers;
 using System.Configuration;
-
+using Microsoft.AspNet.Identity;
 using WhatsIn.Models;
 using WhatsIn.AppServices;
 using WhatsIn.Util;
@@ -37,6 +37,11 @@ namespace WhatsIn.Controllers
 
         public ActionResult Index()
         {
+            var userId = User.Identity.GetUserId();
+            var user = _membership.GetUser(userId);
+
+            if (user !=null && user.IsServiceExists.HasValue)
+                TempData["IsServiceExists"] = user.IsServiceExists.Value;
             return View();
         }
 
@@ -86,7 +91,13 @@ namespace WhatsIn.Controllers
             try
             {
                 ViewBag.Message = "My Services.";
-                var userId = _membership.GetUserId(User.Identity.Name);
+                //var userId = _membership.GetUserId(User.Identity.Name);
+                var userId = User.Identity.GetUserId();
+                var user = _membership.GetUser(userId);
+
+                if (user != null && user.IsServiceExists.HasValue)
+                    TempData["IsServiceExists"] = user.IsServiceExists.Value;
+
                 List<ServiceModel> model = _services.GetServices(userId);
                 return View(model);
             }
@@ -97,11 +108,24 @@ namespace WhatsIn.Controllers
             }
         }
 
+        public ActionResult UpdateIsServiceExistsTag()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = _membership.GetUser(userId);
+            if (!user.IsServiceExists.Value)
+            {
+                user.IsServiceExists = true;
+                _membership.UpdateUser(user);
+            }
+            return RedirectToAction("MyServices");
+        }
+
         public ActionResult AddNewService(ServiceModel model)
         {
             try
             {
-                var userId = _membership.GetUserId(User.Identity.Name);
+                //var userId = _membership.GetUserId(User.Identity.Name);
+                var userId = User.Identity.GetUserId();
                 model.UserId = userId;
                 _services.UpsertService(model);
                 return RedirectToAction("MyServices");
@@ -255,7 +279,7 @@ namespace WhatsIn.Controllers
                 else
                     return Json(string.Empty, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.LogError(this.GetType(), ex);
                 return Json(string.Empty, JsonRequestBehavior.AllowGet);

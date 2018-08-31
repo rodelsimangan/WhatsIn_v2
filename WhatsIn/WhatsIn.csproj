@@ -268,6 +268,10 @@
     <Compile Include="Migrations\201805101906453_Add_Address_To_Service.Designer.cs">
       <DependentUpon>201805101906453_Add_Address_To_Service.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808311855476_Add_IsServiceExists_To_ApplicationUser.cs" />
+    <Compile Include="Migrations\201808311855476_Add_IsServiceExists_To_ApplicationUser.Designer.cs">
+      <DependentUpon>201808311855476_Add_IsServiceExists_To_ApplicationUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -442,6 +446,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805101906453_Add_Address_To_Service.resx">
       <DependentUpon>201805101906453_Add_Address_To_Service.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808311855476_Add_IsServiceExists_To_ApplicationUser.resx">
+      <DependentUpon>201808311855476_Add_IsServiceExists_To_ApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

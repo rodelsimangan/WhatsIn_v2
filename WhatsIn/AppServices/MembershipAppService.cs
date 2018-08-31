@@ -15,23 +15,6 @@ namespace WhatsIn.AppServices
         {
             _userContext = new ApplicationDbContext();
         }
-        public string GetUserId(string UserName)
-        {
-            try
-            {
-                ApplicationUser user = new ApplicationUser();
-                
-                var query = from u in _userContext.Users
-                           where u.Email == UserName
-                           select u;
-                user = query.FirstOrDefault();
-                return user.Id;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
         public ApplicationUser GetUser(string UserId)
         {
@@ -42,6 +25,19 @@ namespace WhatsIn.AppServices
                             select u;
                 var user = query.FirstOrDefault();
                 return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+       public void UpdateUser(ApplicationUser input)
+        {
+            try
+            {
+                _userContext.Entry(input).State = EntityState.Modified;
+                _userContext.SaveChanges();
             }
             catch (Exception ex)
             {

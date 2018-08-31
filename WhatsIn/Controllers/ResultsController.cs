@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.IO;
 using System.Web.Helpers;
+using Microsoft.AspNet.Identity;
 
 using WhatsIn.Models;
 using WhatsIn.AppServices;
@@ -37,6 +38,12 @@ namespace WhatsIn.Controllers
         {
             try
             {
+                var userId = User.Identity.GetUserId();
+                var user = _membership.GetUser(userId);
+
+                if (user != null && user.IsServiceExists.HasValue)
+                    TempData["IsServiceExists"] = user.IsServiceExists.Value;
+
                 int BlockSize = 9;
                 List<ServiceModel> list = new List<ServiceModel>();
 
@@ -229,6 +236,12 @@ namespace WhatsIn.Controllers
         {
             try
             {
+                var loggeduserId = User.Identity.GetUserId();
+                var loggeduser = _membership.GetUser(loggeduserId);
+
+                if (loggeduser != null && loggeduser.IsServiceExists.HasValue)
+                    TempData["IsServiceExists"] = loggeduser.IsServiceExists.Value;
+
                 ResultViewModel model = new ResultViewModel();
                 var service = _services.GetService(s);
                 var user = _membership.GetUser(service.UserId);
@@ -260,7 +273,8 @@ namespace WhatsIn.Controllers
                     model.NegativeRatings = ratings.Where(r => r.Rating == false).Count();
                     if (User.Identity.IsAuthenticated)
                     {
-                        var loginId = _membership.GetUserId(User.Identity.Name);
+                        //var loginId = _membership.GetUserId(User.Identity.Name);
+                        var loginId = User.Identity.GetUserId();
                         var hasRatings = ratings.Where(r => r.LoginId == loginId).Count();
                         if (hasRatings > 0)
                             model.RatingGiven = true;

@@ -6,29 +6,28 @@ namespace WhatsIn.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Facebook Email")]
+        [Display(Name = "Email Address")]
         public string Email { get; set; }
 
         [Required]
         [Display(Name = "Full Name")]
         public string Name { get; set; }
 
-        [Required]
         public string NameIdentifier { get; set; }
 
-        [Required]
         public string ProfilePicture { get; set; }
 
+        [Required]
         [Display(Name = "Street Address")]
         public string Address { get; set; }
 
         [Required]
-        [Display(Name = "Location")]
+        [Display(Name = "City / Municipality & Province")]
         public string Location { get; set; }
 
         [Required]
         [Display(Name = "Contact Number(s)")]
-        public string ContactNumber { get; set; }
+        public string ContactNumber { get; set; }        
     }
 
     public class ExternalLoginListViewModel

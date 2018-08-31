@@ -10,7 +10,7 @@ namespace WhatsIn.AppServices
 {
     public interface IMembershipAppService
     {
-        string GetUserId(string UserName);
         ApplicationUser GetUser(string UserId);
+        void UpdateUser(ApplicationUser input);
     }
 }

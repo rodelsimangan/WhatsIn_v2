@@ -15,8 +15,9 @@ namespace WhatsIn.Models
         public string ContactNumber { get; set; }
         public string NameIdentifier { get; set; }
         public string ProfilePicture { get; set; }
+        public bool? IsServiceExists { get; set; }
 
-    public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);

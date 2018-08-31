@@ -6,9 +6,10 @@
     @Html.AntiForgeryToken()
 
 <ul class="nav navbar-nav navbar-right">
-    <li>@Html.ActionLink("#BeDiscovered", "MyServices", "Home")</li>
+	<li><button id="btnBeDiscovered" type="button" class="btn btn-link " style="padding-top: 15px;padding-left:12px;">#BeDiscovered</button></li>
     <li>
         @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+		@Html.Hidden("IsServiceExists", TempData["IsServiceExists"])
     </li>
     <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
 </ul>
@@ -17,7 +18,24 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <!--li>@*Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })*@</li-->
         <li>@Html.ActionLink("Sign in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
+
+
+<script>
+$('#btnBeDiscovered').click(function (e){
+	e.preventDefault();
+	var isServiceExists = '@TempData["IsServiceExists"]';
+	
+	if(isServiceExists.toLowerCase() == 'true'){
+		window.location.href = "@Url.Action("MyServices", "Home")";
+	}
+	else{
+		$('#modalTermsAndCon').modal('show')
+	}
+
+});
+
+
+</script>

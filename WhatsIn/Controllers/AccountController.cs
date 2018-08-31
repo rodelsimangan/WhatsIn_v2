@@ -427,11 +427,11 @@ namespace WhatsIn.Controllers
                         ViewBag.ReturnUrl = returnUrl;
                         ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
 
-                        var email = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.Email);
-                        var name = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.Name);
+                        //var email = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.Email);
+                        //var name = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.Name);
                         var nameIdentifier = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.NameIdentifier);
                         var picture = $"https://graph.facebook.com/{nameIdentifier}/picture?type=large";
-                        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, Name = name, NameIdentifier = nameIdentifier, ProfilePicture = picture });
+                        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { NameIdentifier = nameIdentifier, ProfilePicture = picture });
                 }
             }
             catch (Exception ex)
@@ -474,6 +474,7 @@ namespace WhatsIn.Controllers
                         ContactNumber = model.ContactNumber,
                         NameIdentifier = model.NameIdentifier,
                         ProfilePicture = model.ProfilePicture,
+                        IsServiceExists = false,
                     };
 
                     var result = await UserManager.CreateAsync(user);
