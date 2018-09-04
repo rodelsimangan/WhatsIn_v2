@@ -20,6 +20,7 @@ namespace WhatsIn.AppServices
             {
                 var query = from q in _context.Services
                             where q.IsDeleted == false || q.IsDeleted == null
+                            && q.UserId == UserId
                             select q;
 
                 return query.ToList();

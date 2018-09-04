@@ -86,6 +86,7 @@ namespace WhatsIn.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult MyServices()
         {
             try

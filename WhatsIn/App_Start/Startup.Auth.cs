@@ -65,7 +65,11 @@ namespace WhatsIn
             };
             options.Scope.Add("public_profile");
             options.Scope.Add("email");
-            options.Scope.Add("user_photos");
+            //options.Scope.Add("user_photos");
+            options.Fields.Add("name");
+            options.Fields.Add("email");
+            options.Fields.Add("picture");
+
             //options.Scope.Add("user_about_me");
             app.UseFacebookAuthentication(options);
 

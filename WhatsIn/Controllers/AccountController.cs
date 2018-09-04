@@ -427,11 +427,13 @@ namespace WhatsIn.Controllers
                         ViewBag.ReturnUrl = returnUrl;
                         ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
 
-                        //var email = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.Email);
-                        //var name = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.Name);
                         var nameIdentifier = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.NameIdentifier);
+                        var email = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.Email);
+                        //var email = $"https://graph.facebook.com/{nameIdentifier}/fields=email";
+                        var name = loginInfo.ExternalIdentity.FindFirstValue(ClaimTypes.Name);
+                        //var name = $"https://graph.facebook.com/{nameIdentifier}/fields=name";
                         var picture = $"https://graph.facebook.com/{nameIdentifier}/picture?type=large";
-                        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { NameIdentifier = nameIdentifier, ProfilePicture = picture });
+                        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { NameIdentifier = nameIdentifier, ProfilePicture = picture , Email = email, Name = name});
                 }
             }
             catch (Exception ex)

@@ -17,11 +17,11 @@ namespace WhatsIn.Models
 
         public string ProfilePicture { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Street Address")]
         public string Address { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "City / Municipality & Province")]
         public string Location { get; set; }
 

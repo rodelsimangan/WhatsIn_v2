@@ -8,7 +8,8 @@
 <ul class="nav navbar-nav navbar-right">
 	<li><button id="btnBeDiscovered" type="button" class="btn btn-link " style="padding-top: 15px;padding-left:12px;">#BeDiscovered</button></li>
     <li>
-        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        @*Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+		@Html.Raw("<div class=\"btn-link\" color=\"#9d9d9d;\"  style=\"padding-top: 17px;\">Hello " + User.Identity.GetUserName() + "!</div>")
 		@Html.Hidden("IsServiceExists", TempData["IsServiceExists"])
     </li>
     <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>

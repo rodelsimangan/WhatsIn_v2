@@ -31,7 +31,7 @@
             <div class="modal-body" id="divServiceImageModal">
                 <form role="form" novalidate class="form-validation">
                     <div class="form-group form-md-line-input form-md-floating-label no-hint">
-                        <img id="imgPreview" alt="650 x 300 pixels image recommended" height="200" width="200" src="@Url.Content(string.Concat("/Uploads/ServiceImages/", ViewData["ImagePath"]))" /><br />
+                        <img id="imgPreview" alt=" Preview (650 x 300 pixels recommended)" height="400" width="200" src="@Url.Content(string.Concat("/Uploads/ServiceImages/", ViewData["ImagePath"]))" /><br />
                         <input type="file" id="UploadImg" /> <br /><br />
                         <input type="hidden" id="txtImg" name="GalleryPath" value="@ViewData["ImagePath"]" size="50" />
                     </div>
