@@ -258,10 +258,10 @@ namespace WhatsIn.Controllers
                     model.ServiceLocation = service.Location;
                     model.ServicePhoneNumber = service.PhoneNumber;
                     model.ServiceSchedule = service.Schedule;
-                    model.ServiceFacebookPage = service.FacebookPage;
-                    model.ServiceTwitterPage = service.TwitterPage;
-                    model.ServiceInstagramPage = service.InstagramPage;
-                    model.ServiceWebsiteAddress = service.WebsiteAddress;
+                    model.ServiceFacebookPage = string.IsNullOrEmpty(service.FacebookPage) ? "" : service.FacebookPage.Substring(3);
+                    model.ServiceTwitterPage = string.IsNullOrEmpty(service.TwitterPage) ? "": service.TwitterPage.Substring(8);
+                    model.ServiceInstagramPage = string.IsNullOrEmpty(service.InstagramPage) ? "" : service.InstagramPage.Substring(10);
+                    model.ServiceWebsiteAddress = string.IsNullOrEmpty(service.WebsiteAddress) ? "" : service.WebsiteAddress;
 
                     model.UserId = user.Id;
                     model.UserName = user.Name;

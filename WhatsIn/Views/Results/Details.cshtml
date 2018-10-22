@@ -47,17 +47,17 @@
                     <div class="text-left">
                         @if (!String.IsNullOrEmpty(Model.ServiceFacebookPage))
                         {
-                            @:<a href="@string.Concat(" https://www.facebook.com/", Model.ServiceFacebookPage.Substring(3))">@*Model.ServiceFacebookPage*@ <i class="fa fa-facebook fa-2x"></i></a>
+                            @:<a href="@string.Concat(" https://www.facebook.com/", Model.ServiceFacebookPage)">@*Model.ServiceFacebookPage*@ <i class="fa fa-facebook fa-2x"></i></a>
                         }
-                        @if (!String.IsNullOrEmpty(Model.ServiceFacebookPage))
+                        @if (!String.IsNullOrEmpty(Model.ServiceTwitterPage))
                         {
-                            @:&nbsp;<a href="@string.Concat(" https://www.twitter.com/", Model.ServiceTwitterPage.Substring(8))">@*Model.ServiceTwitterPage*@ <i class="fa fa-twitter fa-2x"></i></a>
+                            @:&nbsp;<a href="@string.Concat(" https://www.twitter.com/", Model.ServiceTwitterPage)">@*Model.ServiceTwitterPage*@ <i class="fa fa-twitter fa-2x"></i></a>
                         }
-                        @if (!String.IsNullOrEmpty(Model.ServiceFacebookPage))
+                        @if (!String.IsNullOrEmpty(Model.ServiceInstagramPage))
                         {
-                            @:&nbsp;<a href="@string.Concat(" https://www.instagram.com/", Model.ServiceInstagramPage.Substring(10))">@*Model.ServiceInstagramPage*@ <i class="fa fa-instagram fa-2x"></i></a>
+                            @:&nbsp;<a href="@string.Concat(" https://www.instagram.com/", Model.ServiceInstagramPage)">@*Model.ServiceInstagramPage*@ <i class="fa fa-instagram fa-2x"></i></a>
                         }                        
-                        @if (!String.IsNullOrEmpty(Model.ServiceFacebookPage))
+                        @if (!String.IsNullOrEmpty(Model.ServiceWebsiteAddress))
                         {
                             @:&nbsp;<a href="@Model.ServiceWebsiteAddress" target="_blank">@*Model.ServiceWebsiteAddress*@ <i class="fa fa-link fa-2x"></i></a>
                         }                        
