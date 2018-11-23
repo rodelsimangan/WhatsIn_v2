@@ -19,18 +19,24 @@ namespace WhatsIn
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/moment").Include(
+                        "~/Scripts/moment.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/wow.min.js",
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/touchSwipe.min.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/script.js"));
+                      "~/Scripts/script.js",
+                      "~/Scripts/bootstrap-datetimepicker.js"));
+
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                "~/Content/bootstrap.css",
                "~/Content/animate.css",
                "~/Content/Grid.css",
-               "~/Content/style.css"));
+               "~/Content/style.css",
+               "~/Content/bootstrap-datetimepicker.css"));
         }
     }
 }

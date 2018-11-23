@@ -19,6 +19,7 @@ namespace WhatsIn.AppServices
         DbSet<ReportModel> Reports { get; set; }
         DbSet<WatchlistViewModel> Watchlists { get; set; }
         DbSet<MessageModel> Messages { get; set; }
+        DbSet<ItineraryViewModel> Itineraries { get; set; }
 
         int SaveChanges();
         IEnumerable<DbEntityValidationResult> GetValidationErrors();

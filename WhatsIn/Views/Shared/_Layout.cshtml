@@ -17,11 +17,13 @@
     <link rel="icon" href="~/images/whats_in__icon_sm.png" type="image/x-icon" />
     <!--link rel="icon" href="~/images/favicon.ico"-->
 
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/moment")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    @Styles.Render("~/Content/css")
 
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>

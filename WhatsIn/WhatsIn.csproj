@@ -194,6 +194,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppServices\IItinerariesAppService.cs" />
+    <Compile Include="AppServices\ItinerariesAppService.cs" />
     <Compile Include="AppServices\WhatsInDBContext.cs" />
     <Compile Include="AppServices\IWhatsInDBContext.cs" />
     <Compile Include="AppServices\IMessagesAppService.cs" />
@@ -272,6 +274,10 @@
     <Compile Include="Migrations\201808311855476_Add_IsServiceExists_To_ApplicationUser.Designer.cs">
       <DependentUpon>201808311855476_Add_IsServiceExists_To_ApplicationUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811222204129_Added_Itinerary_Table.cs" />
+    <Compile Include="Migrations\201811222204129_Added_Itinerary_Table.Designer.cs">
+      <DependentUpon>201811222204129_Added_Itinerary_Table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -281,6 +287,7 @@
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\ResultViewModel.cs" />
     <Compile Include="Models\SearchViewModel.cs" />
+    <Compile Include="Models\ItineraryViewModel.cs" />
     <Compile Include="Models\WatchlistViewModel.cs" />
     <Compile Include="Models\ServiceImageModel.cs" />
     <Compile Include="Models\RatingModel.cs" />
@@ -291,6 +298,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -327,6 +336,8 @@
     <Content Include="images\photos\2.jpg" />
     <Content Include="images\photos\3.jpg" />
     <Content Include="images\sublime.jpg" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -339,6 +350,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -401,6 +416,7 @@
     <Content Include="Views\Results\SportsAndRecreationList.cshtml" />
     <Content Include="Views\Results\ShoppingAndSouvenirsList.cshtml" />
     <Content Include="Views\Results\FoodAndDiningList.cshtml" />
+    <Content Include="Views\Home\MyItineraries.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -449,6 +465,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808311855476_Add_IsServiceExists_To_ApplicationUser.resx">
       <DependentUpon>201808311855476_Add_IsServiceExists_To_ApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811222204129_Added_Itinerary_Table.resx">
+      <DependentUpon>201811222204129_Added_Itinerary_Table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

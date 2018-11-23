@@ -22,5 +22,6 @@ namespace WhatsIn.AppServices
         public DbSet<WatchlistViewModel> Watchlists { get; set; }
         public DbSet<ReportModel> Reports { get; set; }
         public DbSet<MessageModel> Messages { get; set; }
+        public DbSet<ItineraryViewModel> Itineraries { get; set; }
     }
 }
