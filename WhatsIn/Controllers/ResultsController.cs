@@ -22,6 +22,7 @@ namespace WhatsIn.Controllers
         readonly IMembershipAppService _membership;
         readonly IServiceRatingsAppService _ratings;
         readonly IServiceReportsAppService _report;
+        readonly IItinerariesAppService _itinerary;
         readonly IWhatsInDBContext _context;
 
         public ResultsController()
@@ -32,6 +33,7 @@ namespace WhatsIn.Controllers
             _membership = new MembershipAppService();
             _ratings = new ServiceRatingsAppService(_context);
             _report = new ServiceReportsAppService(_context);
+            _itinerary = new ItinerariesAppService(_context);
         }
 
         public ActionResult Index(string location, string type)
@@ -365,6 +367,26 @@ namespace WhatsIn.Controllers
                 Logger.LogError(this.GetType(), ex);
                 throw ex;
             }
+        }
+
+        public ActionResult AddToItinerary(ItineraryViewModel model)
+        {
+            try
+            {
+                _itinerary.UpsertItinerary(model);
+                return RedirectToAction("Details", new { s = model.ServiceId });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
+        }
+
+        public PartialViewResult GetContributorName(string loginId)
+        {
+            var user = _membership.GetUser(loginId);
+            return PartialView(user);
         }
 
     }

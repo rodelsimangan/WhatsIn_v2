@@ -274,9 +274,9 @@
     <Compile Include="Migrations\201808311855476_Add_IsServiceExists_To_ApplicationUser.Designer.cs">
       <DependentUpon>201808311855476_Add_IsServiceExists_To_ApplicationUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811222204129_Added_Itinerary_Table.cs" />
-    <Compile Include="Migrations\201811222204129_Added_Itinerary_Table.Designer.cs">
-      <DependentUpon>201811222204129_Added_Itinerary_Table.cs</DependentUpon>
+    <Compile Include="Migrations\201811261452445_Added_Itinerary_Table.cs" />
+    <Compile Include="Migrations\201811261452445_Added_Itinerary_Table.Designer.cs">
+      <DependentUpon>201811261452445_Added_Itinerary_Table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -409,7 +409,7 @@
     <Content Include="Views\Results\ShowNegativeComments.cshtml" />
     <Content Include="Views\Results\ShowPositiveComments.cshtml" />
     <Content Include="Views\Home\Disclaimer.cshtml" />
-    <Content Include="Views\Home\ServiceList - Copy.cshtml" />
+    <Content Include="Views\Home\ItineraryList.cshtml" />
     <Content Include="Views\Results\HotelAndAccomodationsList.cshtml" />
     <Content Include="Views\Results\TouristSpotsList.cshtml" />
     <Content Include="Views\Results\BeautyAndRelaxationList.cshtml" />
@@ -417,6 +417,10 @@
     <Content Include="Views\Results\ShoppingAndSouvenirsList.cshtml" />
     <Content Include="Views\Results\FoodAndDiningList.cshtml" />
     <Content Include="Views\Home\MyItineraries.cshtml" />
+    <Content Include="Views\Home\ItineraryService.cshtml" />
+    <Content Include="Views\Shared\MyItineraryCount.cshtml" />
+    <Content Include="Views\Shared\GetNameOfUser.cshtml" />
+    <Content Include="Views\Results\GetContributorName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -466,8 +470,8 @@
     <EmbeddedResource Include="Migrations\201808311855476_Add_IsServiceExists_To_ApplicationUser.resx">
       <DependentUpon>201808311855476_Add_IsServiceExists_To_ApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811222204129_Added_Itinerary_Table.resx">
-      <DependentUpon>201811222204129_Added_Itinerary_Table.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811261452445_Added_Itinerary_Table.resx">
+      <DependentUpon>201811261452445_Added_Itinerary_Table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

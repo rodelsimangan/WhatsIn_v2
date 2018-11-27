@@ -97,13 +97,13 @@
     var NoMoreData = false;
     var inProgress = false;
 
-	google.maps.event.addDomListener(window, 'load', function () {
+	 google.maps.event.addDomListener(window, 'load', function () {
         var options = {
             componentRestrictions: { country: "ph" }
         };
         var input = document.getElementById('Location');
         var places = new google.maps.places.Autocomplete(input, options);
-    });
+    }); 
 
     $(function () {
 

@@ -14,8 +14,8 @@
         -->
     <!-- favicon -->
     <!--link rel="shortcut icon" href="~/images/whats_in__icon_sm.png" type="image/x-icon"-->
-    <link rel="icon" href="~/images/whats_in__icon_sm.png" type="image/x-icon" />
-    <!--link rel="icon" href="~/images/favicon.ico"-->
+    <!--link rel="icon" href="~/images/whats_in__icon_sm.png" type="image/x-icon" /-->
+    <link rel="icon" href="~/images/favicon.ico">
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/modernizr")
@@ -32,7 +32,23 @@
             enable_page_level_ads: true
         });
     </script>
-
+    <style>
+        .navbar-inverse {
+            background-color: #555 !important;            
+        }
+        .navbar-inverse .navbar-nav > li > a {
+           color: #ffffff;
+        }
+        .navbar-inverse .navbar-nav > li > a:hover {
+            text-decoration: underline;
+        }
+        .navbar-inverse .btn-link {
+            color: #ffffff;
+        }
+        .footer {
+            background-color: #555 !important;
+        }
+    </style>
 </head>
 <body id="home">
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -107,6 +123,38 @@
 $('#btnIAgree').click(function (e){	
 	e.preventDefault();
 	window.location.href = "@Url.Action("UpdateIsServiceExistsTag", "Home")";
+});
+
+$(function () {
+
+    $(".divItineraryBadge").each(function (e) {
+        var loginId = $(this).prop('id');
+         $.ajax({
+            type: "Get",
+            url: "@Url.Action("MyItineraryCount", "Home")",
+            data: {
+                loginId: loginId,
+            },
+            success: function (data) {
+                $('.divItineraryBadge').html(data);
+            }
+        });
+      });
+
+
+    $(".divNameOfUser").each(function (e) {
+        var loginId = $(this).prop('id');
+         $.ajax({
+            type: "Get",
+            url: "@Url.Action("GetNameOfUser", "Home")",
+            data: {
+                loginId: loginId,
+            },
+            success: function (data) {
+                $('.divNameOfUser').html(data);
+            }
+        });
+      });
 });
 
 </script>

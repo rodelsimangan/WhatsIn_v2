@@ -9,9 +9,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-xs-12">
-                <h3>#BeDiscovered</h3><br />
+                <h3>#Contribute</h3><br />
                 <div class="form-group">
-                    <button id="CreateNewServiceButton" class="btn btn-success" data-toggle="modal" data-target="#myServiceModal"><span class="fa fa-plus"></span>&nbsp; Post My Business / Service</button>
+                    <button id="CreateNewServiceButton" class="btn btn-success" data-toggle="modal" data-target="#myServiceModal"><span class="fa fa-plus"></span>&nbsp; Add Places/Destinations</button>
                     <!--button id="CreateNewServiceButton" class="btn btn-primary" data-toggle="modal" data-target="#myServiceModal"><i class="fa fa-plus"></i> Post My Business</button-->
                 </div>
             </div>
@@ -31,17 +31,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">My Business</h4>
+                <h4 class="modal-title" id="myModalLabel">Contribute</h4>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
                         <input type="hidden" class="form-control" id="service-id">
-                        <label for="service-name" class="control-label">Service to offer</label>
-                        <input type="text" class="form-control" id="service-name" placeholder="Type in the name of your service.">
+                        <label for="service-name" class="control-label">Enter the name of place/destination.</label>
+                        <input type="text" class="form-control" id="service-name" placeholder="Enter the name of place/destination.">
                     </div>
                     <div class="form-group">
-                        <label for="service-type" class="control-label">Service Type</label>
+                        <label for="service-type" class="control-label">Destination Type</label>
                         <select id="service-type">
                             <option>Food and Dining</option>
                             <option>Hotel and Accomodations</option>
@@ -52,39 +52,39 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="service-provides" class="control-label">Describe your establishment.</label>
-                        <textarea class="form-control" rows="5" id="service-provides" placeholder="Type in to describe the establishment."></textarea>
+                        <label for="service-provides" class="control-label">Describe the place/destination.(Optional)</label>
+                        <textarea class="form-control" rows="5" id="service-provides" placeholder="Type in to describe the place/destination."></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="service-location" class="control-label">Your address</label>
+                        <label for="service-location" class="control-label">Address</label>
                         <input class="form-control" id="service-address" placeholder="Floor/Bldg/House No., Street, Subdivision, Barangay">
                     </div>
                     <div class="form-group">
-                        <label for="service-location" class="control-label">Your location</label>
+                        <label for="service-location" class="control-label">City/Municipality</label>
                         <input class="form-control" id="service-location" placeholder="Ex. Santa Rosa Laguna, Quezon City">
                     </div>
                     <div class="form-group">
-                        <label for="service-phonenumber" class="control-label">Your Contact Number(s)</label>
+                        <label for="service-phonenumber" class="control-label">Contact Number(s) of this place/destination.</label>
                         <input class="form-control" id="service-phonenumber" placeholder="Ex. (02) 555-1234, 0917">
                     </div>
                     <div class="form-group">
                         <label for="service-schedule" class="control-label">Your Schedules</label>
-                        <textarea class="form-control" rows="3" id="service-schedule" placeholder="Type in to enter your establishment's schedule."></textarea>
+                        <textarea class="form-control" rows="3" id="service-schedule" placeholder="Schedule of the place."></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="service-facebookpage" class="control-label">Your Facebook Page</label>
+                        <label for="service-facebookpage" class="control-label">Facebook Page</label>
                         <input class="form-control" id="service-facebookpage" placeholder="Ex. fb/myservice">
                     </div>
                     <div class="form-group">
-                        <label for="service-twitterpage" class="control-label">Your Twitter Page</label>
+                        <label for="service-twitterpage" class="control-label">Twitter Page</label>
                         <input class="form-control" id="service-twitterpage" placeholder="Ex. twitter/myservice">
                     </div>
                     <div class="form-group">
-                        <label for="service-instagrampage" class="control-label">Your Instagram Page</label>
+                        <label for="service-instagrampage" class="control-label">Instagram Page</label>
                         <input class="form-control" id="service-instagrampage" placeholder="Ex. instagram/myservice">
                     </div>
                     <div class="form-group">
-                        <label for="service-websiteaddress" class="control-label">Your Website Address</label>
+                        <label for="service-websiteaddress" class="control-label">Website Address</label>
                         <input class="form-control" id="service-websiteaddress" placeholder="Ex. www.myservice.com">
                     </div>
                 </form>
@@ -250,7 +250,7 @@
         };
         var input = document.getElementById('service-location');
         var places = new google.maps.places.Autocomplete(input, options);
-    });
+    }); 
 
 </script>
 

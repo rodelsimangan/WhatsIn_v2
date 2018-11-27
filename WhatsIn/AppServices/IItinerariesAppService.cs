@@ -10,7 +10,7 @@ namespace WhatsIn.AppServices
 {
     public interface IItinerariesAppService
     {
-        List<ItineraryViewModel> GetItineraries(int UserId);
+        List<ItineraryViewModel> GetItineraries(string UserId);
         ItineraryViewModel GetItinerary(int ItineraryId);
         void UpsertItinerary(ItineraryViewModel input);
         void RemoveItinerary(int ItineraryId);

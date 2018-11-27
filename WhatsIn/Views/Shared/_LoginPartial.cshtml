@@ -6,11 +6,12 @@
     @Html.AntiForgeryToken()
 
 <ul class="nav navbar-nav navbar-right">
-    <li><button id="btnBeDiscovered" type="button" class="btn btn-link " style="padding-top: 15px;padding-left:12px;">#BeDiscovered</button></li>
-    <li><button id="btnMyItenirary" type="button" class="btn btn-link " style="padding-top: 15px;padding-left:12px;">#MyItinerary</button></li>
+    <li><button id="btnContribute" type="button" class="btn btn-link " style="padding-top: 15px;padding-left:12px;">#Contribute</button></li>
+    <li><button id="@User.Identity.GetUserId()" type="button" class="btn btn-link btnMyItinerary" style="padding-top: 15px;padding-left:12px;">#MyItinerary &nbsp;<div id="@User.Identity.GetUserId()" class="divItineraryBadge" style=" float: right;"></div></button></li>
     <li>
         @*Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
-        @Html.Raw("<div class=\"btn-link\" color=\"#9d9d9d;\"  style=\"padding-top: 17px;\">Hello " + User.Identity.GetUserName() + "!</div>")
+        <div id="@User.Identity.GetUserId()" class="divNameOfUser btn-link" style="padding-top: 17px;"></div>
+        @*Html.Raw("<div class=\"btn-link\" id=\"\" color=\"#9d9d9d;\"  style=\"padding-top: 17px;\">Hello " + User.Identity.Name + "!</div>")*@
         @Html.Hidden("IsServiceExists", TempData["IsServiceExists"])
     </li>
     <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
@@ -26,7 +27,7 @@ else
 
 
 <script>
-$('#btnBeDiscovered').click(function (e){
+    $('#btnContribute').click(function (e){
 	e.preventDefault();
 	var isServiceExists = '@TempData["IsServiceExists"]';
 	
@@ -36,13 +37,13 @@ $('#btnBeDiscovered').click(function (e){
 	else{
 		$('#modalTermsAndCon').modal('show')
 	}
-
 });
 
-$('#btnMyItenirary').click(function (e){
+$('.btnMyItinerary').click(function (e){
 	e.preventDefault();
 	window.location.href = "@Url.Action("MyItineraries", "Home")";
-
 });
+
+
 
 </script>

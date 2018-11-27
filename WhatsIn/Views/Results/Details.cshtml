@@ -1,4 +1,6 @@
-﻿@model WhatsIn.Models.ResultViewModel
+﻿
+
+@model WhatsIn.Models.ResultViewModel
 
 <div class="col-md-12" style="margin-top:50px;background-color:antiquewhite;">
     <div class="col-md-9" style="margin-top:20px;">
@@ -44,33 +46,41 @@
         </div>
         <div class="row">
             <div class="form-group">
-                    <div class="text-left">
-                        @if (!String.IsNullOrEmpty(Model.ServiceFacebookPage))
-                        {
-                            @:<a href="@string.Concat(" https://www.facebook.com/", Model.ServiceFacebookPage)">@*Model.ServiceFacebookPage*@ <i class="fa fa-facebook fa-2x"></i></a>
-                        }
-                        @if (!String.IsNullOrEmpty(Model.ServiceTwitterPage))
-                        {
-                            @:&nbsp;<a href="@string.Concat(" https://www.twitter.com/", Model.ServiceTwitterPage)">@*Model.ServiceTwitterPage*@ <i class="fa fa-twitter fa-2x"></i></a>
-                        }
-                        @if (!String.IsNullOrEmpty(Model.ServiceInstagramPage))
-                        {
-                            @:&nbsp;<a href="@string.Concat(" https://www.instagram.com/", Model.ServiceInstagramPage)">@*Model.ServiceInstagramPage*@ <i class="fa fa-instagram fa-2x"></i></a>
-                        }                        
-                        @if (!String.IsNullOrEmpty(Model.ServiceWebsiteAddress))
-                        {
-                            @:&nbsp;<a href="@Model.ServiceWebsiteAddress" target="_blank">@*Model.ServiceWebsiteAddress*@ <i class="fa fa-link fa-2x"></i></a>
-                        }                        
-                        
-                        
+                <div class="text-left">
+                    @if (!String.IsNullOrEmpty(Model.ServiceFacebookPage))
+                    {
+                        @:<a href="@string.Concat(" https://www.facebook.com/", Model.ServiceFacebookPage)">@*Model.ServiceFacebookPage*@ <i class="fa fa-facebook fa-2x"></i></a>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.ServiceTwitterPage))
+                    {
+                        @:&nbsp;<a href="@string.Concat(" https://www.twitter.com/", Model.ServiceTwitterPage)">@*Model.ServiceTwitterPage*@ <i class="fa fa-twitter fa-2x"></i></a>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.ServiceInstagramPage))
+                    {
+                        @:&nbsp;<a href="@string.Concat(" https://www.instagram.com/", Model.ServiceInstagramPage)">@*Model.ServiceInstagramPage*@ <i class="fa fa-instagram fa-2x"></i></a>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.ServiceWebsiteAddress))
+                    {
+                        @:&nbsp;<a href="@Model.ServiceWebsiteAddress" target="_blank">@*Model.ServiceWebsiteAddress*@ <i class="fa fa-link fa-2x"></i></a>
+                    }
 
-                    </div>
-                    <div class="text-right">
-                        <button type="button" class="btn btn-success" id="btnOpenWaze">
-                            <i class="fa fa-car fa-2x"></i> Navigate
-                        </button>
-                        <input type="hidden" id="latlong" class="form-group" />
-                    </div>
+
+
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success" id="btnOpenWaze">
+                        <i class="fa fa-car fa-2x"></i> Navigate
+                    </button>
+                    <input type="hidden" id="latlong" class="form-group" />
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button id="AddToItinerary" class="btn btn-success" data-toggle="modal" data-target="#addToItinerary"><i class="fa fa-map-pin fa-2x"></i> Add to #MyItinerary</button>
+                    }
+                    else
+                    {
+                        <p>@Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.RawUrl }, null) to report this service as inappropriate</p>
+                    }
+                </div>
             </div>
         </div>
         <div class="row">
@@ -78,16 +88,24 @@
         </div>
         <div class="row">
             <div class="form-group">
-               &nbsp;
+                &nbsp;
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="row">
+            <div class="form-group">
+                <br /><br /><br /><br />
+                <p>Contributor:</p>
+                <div id="@Model.LoginId" class="divContributor col-md-12"></div>
+            </div>
+        </div>
+        <div class="row">
             <div>
                 &nbsp;
             </div>
             <div class="form-group">
+                <br /><br />
                 <label class="control-label">Ratings: </label>
                 <p>
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:green;"></span>
@@ -237,6 +255,41 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="addToItinerary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">When do you plan to go here?</h4>
+            </div>
+            <div class="modal-body justify-content-between">
+                <form>
+                    <div class="form-group" style="">
+                        <div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div id="dtItinerary"></div>
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnAddToItinerary" name="btnAddToItinerary">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     var serviceRating = true;
     var serviceRate = "";
@@ -258,6 +311,25 @@
                 })
             }
         });
+
+        $('#dtItinerary').datetimepicker({
+            inline: true,
+            sideBySide: true
+        });
+        
+        $(".divContributor").each(function (e) {
+        var loginId = $(this).prop('id');
+         $.ajax({
+            type: "Get",
+            url: "@Url.Action("GetContributorName", "Results")",
+            data: {
+                loginId: loginId,
+            },
+            success: function (data) {
+                $('.divContributor').html(data);
+            }
+        });
+      });
 
     });
 
@@ -355,42 +427,63 @@
 		 var cleanslatlong = $('#latlong').val().replace("(", "");
 		 var latlong = cleanslatlong.replace(")", "");
          var url = "https://waze.com/ul?ll=" + latlong + "&navigate=yes";
-         window.open(url, '_blank');       
-    });  
+         window.open(url, '_blank');
+    });
+
+    $('#btnAddToItinerary').click(function (e) {
+        e.preventDefault();
+        var dt = $('#dtItinerary').data("DateTimePicker").date();
+        var itDate = dt.format("YYYY-MM-DD hh:mm a");
+        //alert("Itinerary Date: " + dt.format("YYYY-MM-DD hh:mm a"));
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddToItinerary","Results")",
+            data: {
+                serviceid: serviceId,
+                loginid: loginId,
+                itDate: itDate
+            },
+            success: function (data) {
+                $('#addToItinerary').modal('hide');
+                location.reload();
+            },
+        });
+    });
 
 </script>
 <script>
-    function initMap() {
-        var uluru = { lat: -25.363, lng: 131.044 };
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 16,
-            center: uluru
-        });
-        var marker = new google.maps.Marker({
-            position: uluru,
-            map: map
-        });
-
-        var geocoder = new google.maps.Geocoder();
-        geocodeAddress(geocoder, map);
-    }
-
-    function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('ServiceAddress').value;
-        var location = document.getElementById('ServiceLocation').value;
-        var fulladdress = address + ' ' + location
-        geocoder.geocode({ 'address': fulladdress }, function (results, status) {
-            if (status === 'OK') {
-                resultsMap.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-                    map: resultsMap,
-                    position: results[0].geometry.location                    
+            function initMap() {
+                var uluru = { lat: -25.363, lng: 131.044 };
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 16,
+                    center: uluru
                 });
-                $('#latlong').val(results[0].geometry.location);
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
+                var marker = new google.maps.Marker({
+                    position: uluru,
+                    map: map
+                });
+
+                var geocoder = new google.maps.Geocoder();
+                geocodeAddress(geocoder, map);
             }
-        });
-    }
+
+          function geocodeAddress(geocoder, resultsMap) {
+                var address = document.getElementById('ServiceAddress').value;
+                var location = document.getElementById('ServiceLocation').value;
+                var fulladdress = address + ' ' + location
+                geocoder.geocode({ 'address': fulladdress }, function (results, status) {
+                    if (status === 'OK') {
+                        resultsMap.setCenter(results[0].geometry.location);
+                        var marker = new google.maps.Marker({
+                            map: resultsMap,
+                            position: results[0].geometry.location
+                        });
+                        $('#latlong').val(results[0].geometry.location);
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI90tw9r9ufk3o5jHs4hmnDryfIW0F4WQ&callback=initMap"></script>

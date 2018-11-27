@@ -13,7 +13,7 @@ namespace WhatsIn.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201811222204129_Added_Itinerary_Table"; }
+            get { return "201811261452445_Added_Itinerary_Table"; }
         }
         
         string IMigrationMetadata.Source

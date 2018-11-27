@@ -24,7 +24,9 @@ namespace WhatsIn.Controllers
         readonly IServiceImagesAppService _serviceImages;
         readonly IMembershipAppService _membership;
         readonly IMessagesAppService _message;
+        readonly IItinerariesAppService _itineraries;
         readonly IWhatsInDBContext _context;
+        
 
         public HomeController()
         {
@@ -33,6 +35,7 @@ namespace WhatsIn.Controllers
             _serviceImages = new ServiceImagesAppService(_context);
             _membership = new MembershipAppService();
             _message = new MessagesAppService(_context);
+            _itineraries = new ItinerariesAppService(_context);
         }
 
         public ActionResult Index()
@@ -107,6 +110,12 @@ namespace WhatsIn.Controllers
                 Logger.LogError(this.GetType(), ex);
                 throw ex;
             }
+        }
+
+        [ChildActionOnly]
+        public ActionResult ServiceList(List<ServiceModel> Model)
+        {
+            return PartialView(Model);
         }
 
         public ActionResult UpdateIsServiceExistsTag()
@@ -315,10 +324,87 @@ namespace WhatsIn.Controllers
 
         }
 
+        [Authorize]
+        public ActionResult MyItineraries()
+        {
+            try
+            {
+                ViewBag.Message = "My Itineraries.";
+                //var userId = _membership.GetUserId(User.Identity.Name);
+                var userId = User.Identity.GetUserId();
+                var user = _membership.GetUser(userId);
+
+                List<ItineraryViewModel> model = _itineraries.GetItineraries(userId);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
+        }
+
         [ChildActionOnly]
-        public ActionResult ServiceList(List<ServiceModel> Model)
+        public ActionResult ItineraryList(List<ItineraryViewModel> Model)
         {
             return PartialView(Model);
         }
+
+        public PartialViewResult ItineraryService(int ServiceId)
+        {
+            var model = _services.GetService(ServiceId);
+            //ViewBag.Message = "My Service Images.";
+            return PartialView(model);
+            //return PartialView();
+        }
+
+        public ActionResult CompleteItinerary(int itineraryId)
+        {
+            try
+            {
+                var model =  _itineraries.GetItinerary(itineraryId);
+                model.IsCompleted = true;
+                _itineraries.UpsertItinerary(model);
+                return RedirectToAction("MyItineraries");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
+        }
+
+        public ActionResult RemoveItinerary(int ItineraryId)
+        {
+            try
+            {
+                _itineraries.RemoveItinerary(ItineraryId);
+                return RedirectToAction("MyItineraries");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(this.GetType(), ex);
+                throw ex;
+            }
+        }
+
+        public PartialViewResult MyItineraryCount(string loginId)
+        {
+            int? iTcount = null;
+            var list = _itineraries.GetItineraries(loginId);
+            if (list.Count() > 0)
+                iTcount = list.Count();
+            //ViewBag.Message = "My Service Images.";
+            return PartialView(iTcount);
+            //return PartialView();
+        }
+
+        [Authorize]
+        public PartialViewResult GetNameOfUser(string loginId)
+        {            
+            var user = _membership.GetUser(loginId);          
+            return PartialView(user);
+        }
+
     }
 }
