@@ -7,7 +7,8 @@
         <img src="@Model.ProfilePicture" class="img-thumbnail" alt="Add Image" />
     </div>
     <div class="row col-md-12">
-        <a href="@string.Concat(" https://www.facebook.com/", Model.NameIdentifier)">@Model.Name</a>
+        @Model.Name
+        <!--a href="@string.Concat(" https://www.facebook.com/", Model.NameIdentifier)">@Model.Name</!--a-->
     </div>
 }
 else
