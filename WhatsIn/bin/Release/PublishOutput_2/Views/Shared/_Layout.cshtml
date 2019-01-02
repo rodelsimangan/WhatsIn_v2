@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's In?</title>
+    <!-- Google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,800' rel='stylesheet' type='text/css'>
+    <!-- font awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- animate.css
+    <link rel="stylesheet" href="assets/animate/animate.css" />
+        -->
+    <!-- favicon -->
+    <!--link rel="shortcut icon" href="~/images/whats_in__icon_sm.png" type="image/x-icon"-->
+    <link rel="icon" href="~/images/whats_in__icon_sm.png" type="image/x-icon" />
+    <!--link rel="icon" href="~/images/favicon.ico"-->
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+<body id="home">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*Html.ActionLink("What's In?", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "font-weight:bold" })*@
+                <a href="@Url.Action("Index", "Home")"><img src="~/images/whats_in__icon.png" class="navbar-brand"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @*if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("My Services", "MyServices", "Home")</li>
+
+                    }*@
+                    <li>@Html.ActionLink("About", "Index", "Home", "", "", "about", null, null)</li>
+                    <li>@Html.ActionLink("Contact", "Index", "Home","","", "contact",null,null)</li>
+                    <!--li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li-->
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content" style="min-height:800px;">
+        @RenderBody()
+    </div>
+    <!-- footer -->
+    <div class="footer text-center wowload fadeIn">
+        <span class="text-center" style="color:white;">Copyright © 2018 What's In?</span><br /><br />
+        <span class="text-center" style="color:white;"><a href="@Url.Action("Disclaimer","Home")" target="_blank">Disclaimer</a> | <a href="@Url.Action("PrivacyPolicy","Home")" target="_blank">Privacy Policy</a> | <a href="@Url.Action("TermsOfUse","Home")" target="_blank">Terms Of Use</a></span><br /><br />
+        <!--span class="text-center" style="color:white;">Powered by: <a href="http://thebootstrapthemes.com">www.thebootstrapthemes.com</a> </!--span><br /><br />
+        <div class="social">
+            <a href="#"><i class="fa fa-facebook fa-2x"></i></a>
+            <a href="#"><i class="fa fa-instagram fa-2x"></i></a>
+            <a href="#"><i class="fa fa-twitter fa-2x"></i></a>
+            <a href="#"><i class="fa fa-pinterest fa-2x"></i></a>
+        </div-->
+
+    </div>
+    <!-- footer -->
+</body>
+</html>

@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+<ul class="nav navbar-nav navbar-right">
+    <li><button id="btnContribute" type="button" class="btn btn-link " style="padding-top: 15px;padding-left:12px;">#Contribute</button></li>
+    <li><button id="@User.Identity.GetUserId()" type="button" class="btn btn-link btnMyItinerary" style="padding-top: 15px;padding-left:12px;">#MyItinerary &nbsp;<div id="@User.Identity.GetUserId()" class="divItineraryBadge" style=" float: right;"></div></button></li>
+    <li>
+        @*Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+        <div id="@User.Identity.GetUserId()" class="divNameOfUser btn-link" style="padding-top: 17px;"></div>
+        @*Html.Raw("<div class=\"btn-link\" id=\"\" color=\"#9d9d9d;\"  style=\"padding-top: 17px;\">Hello " + User.Identity.Name + "!</div>")*@
+        @Html.Hidden("IsServiceExists", TempData["IsServiceExists"])
+    </li>
+    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+</ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Sign in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+
+
+<script>
+    $('#btnContribute').click(function (e){
+	e.preventDefault();
+	var isServiceExists = '@TempData["IsServiceExists"]';
+	
+	if(isServiceExists.toLowerCase() == 'true'){
+		window.location.href = "@Url.Action("MyServices", "Home")";
+	}
+	else{
+		$('#modalTermsAndCon').modal('show')
+	}
+});
+
+$('.btnMyItinerary').click(function (e){
+	e.preventDefault();
+	window.location.href = "@Url.Action("MyItineraries", "Home")";
+});
+
+
+
+</script>

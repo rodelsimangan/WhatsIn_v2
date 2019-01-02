@@ -1,0 +1,56 @@
+﻿@model List<WhatsIn.Models.ServiceModel>
+
+<div id="FoodAndDiningListDiv">
+    <div>
+        <div class="row">&nbsp;</div>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            var ctr = i % 3;
+
+            if (ctr == 0)
+            {
+                @:<div class="row">
+            }
+                var item = Model[i];
+                <div class="col-xs-4 text-center">
+                    <span style="font-weight:bold; text-align:center;"><a href="@Url.Action("Details","Results", new { s = item.Id  })" target="_blank" id="@item.Id"> @item.Name</a> </span><br /><br />
+                    <span style="font-weight:bold; text-align:center;"> @item.Location </span><br /><br />
+                    <img id="@item.Id" class="img-thumbnail imgService " alt="Add Image" />
+                </div>
+            if ((i == Model.Count - 1) || (ctr == 2))
+            {
+                @:</div><div class="row">&nbsp;</div>
+            }
+            
+        }
+    </div>    
+</div>
+<div id="FADLoadingDiv" style="text-align: center; display: none; margin-bottom: 20px;">
+    <img alt="Loading" src="@Url.Content("~/images/ajax-loader.gif")" />
+</div>
+
+<script>
+    var FADBlockNumber = 2;  //Infinate Scroll starts from second block
+    var FADNoMoreData = false;
+    var FADInProgress = false;
+    $(window).scroll(function () {
+        //var serviceName = $('#Name').val();
+        //var serviceLoc = $('#Location').val();
+        if ($(window).scrollTop() == $(document).height() - $(window).height() && !FADNoMoreData && !FADInProgress) {
+
+            FADInProgress = true;
+            $("#loadingDiv").show();
+
+            $.post("@Url.Action("FoodAndDiningScroll", "Results")", { "location": "@TempData["Location"]", type : "Food And Dining" , "FADBlockNumber": FADBlockNumber  },
+                    function (data) {
+
+                        FADBlockNumber = FADBlockNumber + 1;
+                        FADNoMoreData = data.FADNoMoreData;
+                        $("#FoodAndDiningListDiv").append(data.HTMLString);
+                        $("#FADLoadingDiv").hide();
+                        FADInProgress = false;
+                    });
+        }
+    });
+
+</script>

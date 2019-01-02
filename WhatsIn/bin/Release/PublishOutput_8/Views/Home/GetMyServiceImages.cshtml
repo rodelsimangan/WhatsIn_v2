@@ -1,0 +1,25 @@
+﻿@model List<WhatsIn.Models.ServiceImageModel>
+<button id="AddServiceImageButton" class="btn btn-primary" data-toggle="modal" data-target="#AddServiceImageModal"><i class="fa fa-plus"></i> Add Image</button>
+
+<div class="col-xs-12">
+    <div class="row">&nbsp;</div>
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var ctr = i % 3;
+
+        if (ctr == 0)
+        {
+            @:<div class="row">
+        }
+            var item = Model[i];
+            <div class="col-xs-4">
+                <img class="img-thumbnail" id="serviceImage" alt="No Image" src="@Url.Content(string.Concat("/Uploads/ServiceImages/",item.ImagePath))">
+                <!--button data-toggle="modal" id="@*item.Id*@" class="btn btn-circle btn-xs red UpdateGalleryButton"><span class="fa fa-edit"></span></button-->
+                <button id="@item.Id" class="btn btn-circle btn-xs red DeleteGalleryButton"><span class="fa fa-trash"></span></button>
+            </div>
+            if ((ctr == Model.Count - 1) || (ctr == 2))
+            {
+                @:</div><div class="row">&nbsp;</div>
+            }
+    }
+</div>

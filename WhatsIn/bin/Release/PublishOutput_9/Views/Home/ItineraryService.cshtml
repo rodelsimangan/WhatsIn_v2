@@ -1,0 +1,5 @@
+﻿@model WhatsIn.Models.ServiceModel
+
+<h4>
+    <a href="@Url.Action("Details", "Results", new { s = Model.Id })" id="@Model.Id" target="_blank" class="UpdateServiceButton">@Model.Name</a>
+</h4>

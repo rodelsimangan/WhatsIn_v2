@@ -278,6 +278,10 @@
     <Compile Include="Migrations\201811261452445_Added_Itinerary_Table.Designer.cs">
       <DependentUpon>201811261452445_Added_Itinerary_Table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901021039471_Added_Website_to_User.cs" />
+    <Compile Include="Migrations\201901021039471_Added_Website_to_User.Designer.cs">
+      <DependentUpon>201901021039471_Added_Website_to_User.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -472,6 +476,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811261452445_Added_Itinerary_Table.resx">
       <DependentUpon>201811261452445_Added_Itinerary_Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901021039471_Added_Website_to_User.resx">
+      <DependentUpon>201901021039471_Added_Website_to_User.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,7 +1,7 @@
 C:\repos\Projects\WhatsIn\WhatsIn\bin\ApplicationInsights.config
-C:\repos\Projects\WhatsIn\WhatsIn\bin\GoSerbisyo.dll.config
-C:\repos\Projects\WhatsIn\WhatsIn\bin\GoSerbisyo.dll
-C:\repos\Projects\WhatsIn\WhatsIn\bin\GoSerbisyo.pdb
+C:\repos\Projects\WhatsIn\WhatsIn\bin\WhatsIn.dll.config
+C:\repos\Projects\WhatsIn\WhatsIn\bin\WhatsIn.dll
+C:\repos\Projects\WhatsIn\WhatsIn\bin\WhatsIn.pdb
 C:\repos\Projects\WhatsIn\WhatsIn\bin\roslyn\csc.exe
 C:\repos\Projects\WhatsIn\WhatsIn\bin\roslyn\csc.exe.config
 C:\repos\Projects\WhatsIn\WhatsIn\bin\roslyn\csc.rsp
@@ -54,6 +54,7 @@ C:\repos\Projects\WhatsIn\WhatsIn\bin\Antlr3.Runtime.dll
 C:\repos\Projects\WhatsIn\WhatsIn\bin\EntityFramework.dll
 C:\repos\Projects\WhatsIn\WhatsIn\bin\EntityFramework.SqlServer.dll
 C:\repos\Projects\WhatsIn\WhatsIn\bin\Facebook.dll
+C:\repos\Projects\WhatsIn\WhatsIn\bin\log4net.dll
 C:\repos\Projects\WhatsIn\WhatsIn\bin\Microsoft.AI.Agent.Intercept.dll
 C:\repos\Projects\WhatsIn\WhatsIn\bin\Microsoft.AI.DependencyCollector.dll
 C:\repos\Projects\WhatsIn\WhatsIn\bin\Microsoft.AI.PerfCounterCollector.dll
@@ -91,6 +92,7 @@ C:\repos\Projects\WhatsIn\WhatsIn\bin\Antlr3.Runtime.pdb
 C:\repos\Projects\WhatsIn\WhatsIn\bin\EntityFramework.xml
 C:\repos\Projects\WhatsIn\WhatsIn\bin\EntityFramework.SqlServer.xml
 C:\repos\Projects\WhatsIn\WhatsIn\bin\Facebook.xml
+C:\repos\Projects\WhatsIn\WhatsIn\bin\log4net.xml
 C:\repos\Projects\WhatsIn\WhatsIn\bin\Microsoft.AI.DependencyCollector.xml
 C:\repos\Projects\WhatsIn\WhatsIn\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\repos\Projects\WhatsIn\WhatsIn\bin\Microsoft.AI.Web.xml
@@ -129,9 +131,14 @@ C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.Migrations.Update_Service_Ad
 C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.Migrations.Update_Ratings_Add_ServiceId_Rating.resources
 C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.Migrations.Added_Reports.resources
 C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.Migrations.Added_Messages.resources
-C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.csproj.GenerateResource.Cache
-C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.csproj.CoreCompileInputs.cache
-C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\GoSerbisyo.dll
-C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\GoSerbisyo.pdb
 C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.Migrations.Update_Service.resources
-C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.csprojResolveAssemblyReference.cache
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.Migrations.Add_Address_To_Service.resources
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.Migrations.Add_IsServiceExists_To_ApplicationUser.resources
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.Migrations.Added_Itinerary_Table.resources
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.csproj.GenerateResource.cache
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.csproj.CoreCompileInputs.cache
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.csproj.CopyComplete
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.dll
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.pdb
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.Migrations.Added_Website_to_User.resources
+C:\repos\Projects\WhatsIn\WhatsIn\obj\Debug\WhatsIn.csprojAssemblyReference.cache

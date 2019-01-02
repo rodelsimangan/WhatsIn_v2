@@ -1,0 +1,381 @@
+﻿@model WhatsIn.Models.ResultViewModel
+
+<div class="col-md-12" style="margin-top:50px;background-color:antiquewhite;">
+    <div class="col-md-9" style="margin-top:20px;">
+        <div class="row">
+            <br />
+            <h3>@Model.ServiceName</h3>
+            <h4>@Model.ServiceAddress</h4><br /><br />
+            <h4>@Model.ServiceLocation</h4><br /><br />
+            @Html.HiddenFor(m => m.ServiceAddress)
+            @Html.HiddenFor(m => m.ServiceLocation)
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div id="divServiceImageModal">
+                    @Html.HiddenFor(m => m.ServiceId)
+                    @Html.HiddenFor(m => m.LoginId)
+                    <p>Load partial view here..</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            &nbsp;
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <p style="white-space:pre-wrap;">@Model.ServiceProvides</p>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                &nbsp;
+            </div>
+            <div class="form-group">
+                <label class="control-label">Contact No.(s):</label>
+                <p><a href="tel:@Model.UserContactNumber">@Model.UserContactNumber</a></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label">Schedule:</label>
+                <p style="white-space:pre-wrap;">@Model.ServiceSchedule</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                    <div class="text-left">
+                        <a href="@string.Concat(" https://www.facebook.com/", Model.ServiceFacebookPage.Substring(3))">@*Model.ServiceFacebookPage*@ <i class="fa fa-facebook fa-2x"></i></a>
+                        &nbsp;<a href="@string.Concat(" https://www.twitter.com/", Model.ServiceTwitterPage.Substring(8))">@*Model.ServiceTwitterPage*@ <i class="fa fa-twitter fa-2x"></i></a>
+                        &nbsp;<a href="@string.Concat(" https://www.instagram.com/", Model.ServiceInstagramPage.Substring(10))">@*Model.ServiceInstagramPage*@ <i class="fa fa-instagram fa-2x"></i></a>
+                        &nbsp;<a href="@Model.ServiceWebsiteAddress" target="_blank">@*Model.ServiceWebsiteAddress*@ <i class="fa fa-link fa-2x"></i></a>
+
+                    </div>
+                    <div class="text-right">
+                        <button type="button" class="btn btn-success" id="btnOpenWaze">
+                            <i class="fa fa-car fa-2x"></i> Get Direction
+                        </button>
+                        <input type="hidden" id="latlong" class="form-group" />
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="map" style="height: 300px"></div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+               &nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div>
+                &nbsp;
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ratings: </label>
+                <p>
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:green;"></span>
+                    @if (Model.PositiveRatings > 0)
+                    {
+                        <button id="@Model.ServiceId" type="button" class="btn btn-link showPositiveComments" style="padding: 0px;"><span class="badge">@Model.PositiveRatings</span></button>
+                    }
+                    else
+                    {
+                        <span class="badge">@Model.PositiveRatings</span>
+                    }
+                    &nbsp; &nbsp; &nbsp;
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true" style="color:red;"></span>
+                    @if (Model.NegativeRatings > 0)
+                    {
+                        <button id="@Model.ServiceId" type="button" class="btn btn-link showNegativeComments" style="padding: 0px;"><span class="badge">@Model.NegativeRatings</span></button>
+                    }
+                    else
+                    {
+                        <span class="badge">@Model.NegativeRatings</span>
+                    }
+                    &nbsp; &nbsp; &nbsp;
+
+                </p>
+                @if (User.Identity.IsAuthenticated && !Model.RatingGiven)
+                {
+                    <button id="RateServiceButton" class="btn" data-toggle="modal" data-target="#myRatingModal">Rate this service</button>
+                }
+                else
+                {
+                    if (!User.Identity.IsAuthenticated)
+                    {
+                        <p>@Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.RawUrl }, null) to rate this service</p>
+                    }
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button id="ReportServiceButton" class="btn btn-warning" data-toggle="modal" data-target="#inappropriateModal">Report this service as inapproriate</button>
+                }
+                else
+                {
+                    <p>@Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.RawUrl }, null) to report this service as inappropriate</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myRatingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Rate Service</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="servicerating-id">
+                        <input type="radio" id="rating-positive" name="service-rating" value="positive"> &nbsp;
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:green;"></span>&nbsp;<label for="rating-positive" class="control-label">Positive</label>&nbsp;&nbsp;
+                        <input type="radio" id="rating-negative" name="service-rating" value="negative"> &nbsp;
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true" style="color:red;"></span>&nbsp;<label for="rating-negative" class="control-label">Negative</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating-comment" class="control-label">Comment:</label>
+                        <textarea class="form-control" rows="5" id="rating-comment" placeholder="Type-in comment in this service."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSaveRating" name="btnSaveRating">Send Rating</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="inappropriateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Report service as inapproriate</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="servicereport-id">
+                        <label for="report-comment" class="control-label">Reason:</label>
+                        <textarea class="form-control" rows="5" id="report-comment" placeholder="Type-in comment reason for reporting this service inappropriate."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSaveReport" name="btnSaveReport">Send Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="negativeRatingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Negative Ratings</h4>
+            </div>
+            <div class="modal-body">
+                <div id="divNegativeRatings"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="positiveRatingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Positive Ratings</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="servicereport-id">
+                        <label for="report-comment" class="control-label">Reason:</label>
+                        <textarea class="form-control" rows="5" id="report-comment" placeholder="Type-in comment reason for reporting this service inappropriate."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var serviceRating = true;
+    var serviceRate = "";
+    var serviceId = $('#ServiceId').val();
+    var loginId = $('#LoginId').val();
+
+    $(function () {
+        var serviceId = $('#ServiceId').val();
+        $.ajax({
+            type: "Get",
+            url: "@Url.Action("DisplayServiceImages", "Results")",
+            data: {
+                serviceId: serviceId,
+            },
+            success: function (data) {
+                $('#divServiceImageModal').html(data);
+                $('.carousel').carousel({
+                    //interval: 2000
+                })
+            }
+        });
+
+    });
+
+    $("#rating-positive").on("click", function () {
+        serviceRate = $("#rating-positive").val();
+    });
+
+    $("#rating-negative").on("click", function () {
+        serviceRate = $("#rating-negative").val();
+    });
+
+    $('#btnSaveRating').click(function (e) {
+        e.preventDefault();
+        var ratingId = $('#servicerating-id').val();
+        var ratingcomment = $('#rating-comment').val();
+
+        if (serviceRate == "positive")
+            serviceRating = true;
+        else if (serviceRate == "negative")
+            serviceRating = false;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RateService","Results")",
+            data: {
+                id: ratingId,
+                serviceid: serviceId,
+                loginid: loginId,
+                comment: ratingcomment,
+                rating: serviceRating,
+            },
+            success: function (data) {
+                $('#myRatingModal').modal('hide');
+                location.reload();
+            },
+        });
+    });
+
+    $('#btnSaveReport').click(function (e) {
+        e.preventDefault();
+        var reportId = $('#servicereport-id').val();
+        var reportcomment = $('#report-comment').val();
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ReportService","Results")",
+            data: {
+                id: reportId,
+                serviceid: serviceId,
+                loginid: loginId,
+                comment: reportcomment,
+            },
+            success: function (data) {
+                $('#myRatingModal').modal('hide');
+                location.reload();
+            },
+        });
+    });
+
+    $('.showNegativeComments').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("ShowNegativeComments","Results")",
+            data: {
+                serviceid: serviceId,
+            },
+            success: function (data) {
+                $('#divNegativeRatings').html(data);
+                $('#negativeRatingModal').modal('show');
+            },
+        });
+    });
+
+     $('.showPositiveComments').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("ShowPositiveComments", "Results")",
+            data: {
+                serviceid: serviceId,
+            },
+            success: function (data) {
+                $('#divPositiveRatings').html(data);
+                $('#positiveRatingModal').modal('show');
+            },
+        });
+    });
+
+     $('#btnOpenWaze').click(function (e) {
+         e.preventDefault();
+         var url = "https://waze.com/ul?ll=" + $('#latlong').val() + "&navigate=yes";
+         window.open(url, '_blank');       
+    });  
+
+</script>
+<script>
+    function initMap() {
+        var uluru = { lat: -25.363, lng: 131.044 };
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+        });
+
+        var geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map);
+    }
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('ServiceAddress').value;
+        var location = document.getElementById('ServiceLocation').value;
+        var fulladdress = address + ' ' + location
+        geocoder.geocode({ 'address': fulladdress }, function (results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location                    
+                });
+                $('#latlong').val(results[0].geometry.location);
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI90tw9r9ufk3o5jHs4hmnDryfIW0F4WQ&callback=initMap"></script>
+<!--script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzzjc4KZD6yKQEuXi-DDa5BWt3iN09joo&callback=initMap"></script-->

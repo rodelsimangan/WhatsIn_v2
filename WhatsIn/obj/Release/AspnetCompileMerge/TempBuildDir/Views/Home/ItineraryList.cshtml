@@ -1,0 +1,37 @@
+﻿@model List<WhatsIn.Models.ItineraryViewModel>
+<div>
+
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var item = Model[i];
+        var itemPrev = Model[i];
+        if(i> 0 && i < Model.Count())
+        {
+            itemPrev = Model[i-1];
+        }
+        if (i == 0 || item.ITDate.Value.ToShortDateString() != itemPrev.ITDate.Value.ToShortDateString())
+        {
+            <div class="row"><div class="col-xs-12"><h4>@item.ITDate.Value.ToShortDateString()</h4></div></div><br />
+        }
+
+        <div class="row text-center">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-2">
+                <div id="@item.ServiceId" class="divItineraryService"></div>
+                <img id="@item.ServiceId" class="img-thumbnail imgService" alt="Add Image" />
+            </div>
+            <div class="col-xs-2">
+                <h4><a href="#" id="@item.Id" class="UpdateServiceButton">@item.ITDate.Value.ToShortTimeString()</a></h4>
+            </div>
+            <div class="col-xs-4">
+                <button data-toggle="modal" id="@item.Id" class="btn btn-success ItineraryCompletedButton"><span class="fa fa-street-view"></span>&nbsp; Visited</button>
+                <button data-toggle="modal" id="@item.Id" class="btn btn-success RemoveItineraryButton"><span class="fa fa-trash"></span>&nbsp; Remove</button>
+            </div>
+            <div class="col-xs-2">
+            </div>
+        </div>
+        <br />
+    }
+
+</div>

@@ -22,6 +22,7 @@ namespace WhatsIn.AppServices
                             where (q.IsDeleted == false || q.IsDeleted == null)
                             && (q.IsCompleted == false || q.IsCompleted == null)
                             && q.LoginId == UserId
+                            orderby q.ITDate ascending
                             select q;
 
                 return query.ToList();

@@ -1,0 +1,23 @@
+﻿
+@model WhatsIn.Models.ApplicationUser
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row col-md-6">
+        <img src="@Model.ProfilePicture" class="img-thumbnail" alt="Add Image" />
+    </div>
+    <div class="row col-md-12">
+        <a href="@string.Concat(" https://www.facebook.com/", Model.NameIdentifier)">@Model.Name</a>
+    </div>
+}
+else
+{
+    <div class="row col-md-12">
+        <img src="@Model.ProfilePicture" class="img-thumbnail" alt="Add Image" />
+    </div>
+    <div class="row col-md-12">
+        @Model.Name
+    </div>
+
+}
+

@@ -1,0 +1,56 @@
+﻿@model List<WhatsIn.Models.ServiceModel>
+Test 1
+<div id="HotelAndAccomListDiv">
+    <div>
+        <div class="row">&nbsp;</div>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            var ctr = i % 3;
+
+            if (ctr == 0)
+            {
+                @:<div class="row">
+            }
+                var item = Model[i];
+                <div class="col-xs-4 text-center">
+                    <span style="font-weight:bold; text-align:center;"><a href="@Url.Action("Details","Results", new { s = item.Id  })" target="_blank" id="@item.Id"> @item.Name</a> </span><br /><br />
+                    <span style="font-weight:bold; text-align:center;"> @item.Location </span><br /><br />
+                    <img id="@item.Id" class="img-thumbnail imgService " alt="Add Image" />
+                </div>
+            if ((i == Model.Count - 1) || (ctr == 2))
+            {
+                @:</div><div class="row">&nbsp;</div>
+            }
+
+        }
+    </div>
+</div>
+<div id="HotelAndAccomloadingDiv" style="text-align: center; display: none; margin-bottom: 20px;">
+    <img alt="Loading" src="@Url.Content("~/images/ajax-loader.gif")" />
+</div>
+
+<script>
+    var HotelAndAccomBlockNumber = 2;  //Infinate Scroll starts from second block
+    var HotelAndAccomNoMoreData = false;
+    var HotelAndAccomInProgress = false;
+    $(window).scroll(function () {
+        //var serviceName = $('#Name').val();
+        //var serviceLoc = $('#Location').val();
+        if ($(window).scrollTop() == $(document).height() - $(window).height() && !HotelAndAccomNoMoreData && !HotelAndAccomInProgress) {
+
+            HotelAndAccomInProgress = true;
+            $("#HotelAndAccomloadingDiv").show();
+
+            $.post("@Url.Action("HotelAndAccomodationsScroll", "Results")", { "location": "@TempData["Location"]", type : "Hotel And Accomodations" , "HotelAndAccomBlockNumber": HotelAndAccomBlockNumber  },
+                    function (data) {
+
+                        HotelAndAccomBlockNumber = HotelAndAccomBlockNumber + 1;
+                        HotelAndAccomNoMoreData = data.HotelAndAccomNoMoreData;
+                        $("#HotelAndAccomListDiv").append(data.HTMLString);
+                        $("#HotelAndAccomloadingDiv").hide();
+                        HotelAndAccomInProgress = false;
+                    });
+        }
+    });
+
+</script>

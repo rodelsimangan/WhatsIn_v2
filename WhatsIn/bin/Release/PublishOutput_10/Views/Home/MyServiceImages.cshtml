@@ -1,0 +1,112 @@
+﻿
+
+@{
+    ViewBag.Title = "My Service Images";
+}
+
+<div class="row margin-bottom-5 admin-content">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-xs-12 text-left">
+                    <input type="hidden" class="form-control" id="service-id" value="@TempData["ServiceId"]" />
+                    @{ TempData.Keep("ServiceId"); }
+                </div>
+                <div class="col-xs-12" id="divImages">
+                    @{ Html.RenderAction("GetMyServiceImages"); }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal-->
+<div class="modal fade" id="AddServiceImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 9998">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Service Images</h4>
+            </div>
+            <div class="modal-body" id="divServiceImageModal">
+                <form role="form" novalidate class="form-validation">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <img id="imgPreview" alt=" Preview (650 x 300 pixels recommended)" height="400" width="200" src="@Url.Content(string.Concat("/Uploads/ServiceImages/", ViewData["ImagePath"]))" /><br />
+                        <input type="file" id="UploadImg" /> <br /><br />
+                        <input type="hidden" id="txtImg" name="GalleryPath" value="@ViewData["ImagePath"]" size="50" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSaveImage" name="btnSaveImage">Save changes</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $("#UploadImg").change(function () {
+        var data = new FormData();
+        var serviceId = $('#service-id').val();
+        var files = $("#UploadImg").get(0).files;
+        if (files.length > 0) {
+            data.append("MyImages", files[0]);
+        }
+
+        $.ajax({
+            url: "/Home/UploadServiceImage",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (response) {
+                $("#txtImg").val(response);
+                $("#imgPreview").attr('src', '/Uploads/ServiceImages/' + response);
+            },
+            error: function (er) {
+                alert(er);
+            }
+
+        });
+    });
+
+    $('#btnSaveImage').click(function (e) {
+        e.preventDefault();
+        var serviceId = @TempData["ServiceId"];
+        var imgfile = $('#txtImg').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddNewServiceImage","Home")",
+                    data: {
+                        serviceId: serviceId,
+                        imagePath: imgfile,
+                    },
+                    success: function (data) {
+                        $('#AddServiceImageModal').modal('hide');
+                        $('#divImages').html(data);
+                    },
+                });
+    });
+
+    $('.DeleteGalleryButton').click(function (e) {
+        e.preventDefault();
+
+        if (confirm('Are you sure you want to delete this image?')) {
+             var serviceImageId = $(this).prop('id');
+             $.ajax({
+                type: "Post",
+                url: "@Url.Action("DeleteServiceImage","Home")",
+                data: {
+                    serviceImageId: serviceImageId,
+                },
+                success: function (data) {
+                    $('#divImages').html(data);
+                },
+            });
+        }
+    });
+</script>

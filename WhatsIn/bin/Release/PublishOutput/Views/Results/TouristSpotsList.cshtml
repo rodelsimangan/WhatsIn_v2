@@ -1,0 +1,9 @@
+﻿@model List<WhatsIn.Models.ServiceModel>
+<div id="tabs-1" class="col-xs-12">
+    <div id="serviceListDiv">
+        @{Html.RenderAction("ServiceList", "Results", new { Model = Model });}
+    </div>
+    <div id="loadingDiv" style="text-align: center; display: none; margin-bottom: 20px;">
+        <img alt="Loading" src="@Url.Content("~/images/ajax-loader.gif")" />
+    </div>
+</div>   

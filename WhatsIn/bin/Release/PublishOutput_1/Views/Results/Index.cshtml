@@ -1,0 +1,347 @@
+﻿@model List<WhatsIn.Models.ServiceModel>
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<div class="row margin-top-15" style="background-color:antiquewhite">
+
+    <br /><br /><br /><br /><br /><br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-xs-12 text-left" id="divSeach">
+                @{Html.RenderPartial("Search", new WhatsIn.Models.ServiceModel()); }
+                <input type="hidden" class="form-control" name="service-location" id="service-location" value="@ViewBag.Location"> &nbsp;&nbsp;
+                <input type="hidden" class="form-control" name="service-type" id="service-type" value="@ViewBag.Type"> &nbsp;&nbsp;
+            </div>
+            <div class="col-xs-12">
+                <ul class="list-inline">
+                    <li><button type="button" class="btn btn-link" id="btnAllTypes"><i class="fa fa-table"></i><span class="badge">@ViewBag.All</span></button></li>
+                    @if (ViewBag.FoodAndDiningCount > 0)
+                    {
+                        <li><button type="button" class="btn btn-link" id="btnFoodAndDining"><i class="fa fa-cutlery"></i><span class="badge">@ViewBag.FoodAndDiningCount</span></button></li>
+                    }
+                    @if (ViewBag.HotelAndAccomodationsCount > 0)
+                    {
+                        <li><button type="button" class="btn btn-link" id="btnHotelAndAccom"><i class="fa fa-hotel"></i><span class="badge">@ViewBag.HotelAndAccomodationsCount</span></button></li>
+                    }
+                    @if (ViewBag.TouristSpots > 0)
+                    {
+                        <li><a href="@Url.Action("TouristSpotsList", "Results")"><i class="fa fa-university"></i><span class="badge">@ViewBag.TouristSpots</span></a></li>
+                    }
+                    @if (ViewBag.BeautyAndRelaxation > 0)
+                    {
+                        <li><a href="@Url.Action("BeautyAndRelaxationList", "Results")"><i class="fa fa-eye"></i><span class="badge">@ViewBag.BeautyAndRelaxation</span></a></li>}
+                    @if (ViewBag.SportsAndRecreation > 0)
+                    {
+                        <li><a href="@Url.Action("SportsAndRecreationList", "Results")"><i class="fa fa-bicycle"></i><span class="badge">@ViewBag.SportsAndRecreation</span></a></li>
+                    }
+                    @if (ViewBag.ShoppingAndSouvenirs > 0)
+                    {
+                        <li><a href="@Url.Action("ShoppingAndSouvenirsList", "Results")"><i class="fa fa-bicycle"></i><span class="badge">@ViewBag.SportsAndRecreation</span></a></li>
+                    }
+                </ul>
+                <div class="col-xs-12">
+                    <div id="serviceListDiv">                            
+                        <div>
+                            <div class="row">&nbsp;</div>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model[i];
+                                var ctr = 0;
+                                if (Request.Browser.IsMobileDevice)
+                                {
+                                    <div class="row">
+                                     <div class="col-xs-12 text-center">
+                                            <span style="font-weight:bold; text-align:center;"><a href="@Url.Action("Details", "Results", new { s = item.Id })" target="_blank" id="@item.Id"> @item.Name</a> </span><br /><br />
+                                            <span style="font-weight:bold; text-align:center;"> @item.Location </span><br /><br />
+                                            <img id="@item.Id" class="img-thumbnail imgService " alt="Add Image" />
+                                    </div>
+                                    </div><div class="row">&nbsp;</div>
+                                }
+                                else
+                                {
+                                    ctr = i % 3;
+
+                                    if (ctr == 0)
+                                    {
+                                        @:<div class="row">
+                                        }
+                                  
+                                        <div class="col-xs-4 text-center">
+                                            <span style="font-weight:bold; text-align:center;"><a href="@Url.Action("Details", "Results", new { s = item.Id })" target="_blank" id="@item.Id"> @item.Name</a> </span><br /><br />
+                                            <span style="font-weight:bold; text-align:center;"> @item.Location </span><br /><br />
+                                            <img id="@item.Id" class="img-thumbnail imgService " alt="Add Image" />
+                                        </div>
+                                    if ((i == Model.Count - 1) || (ctr == 2))
+                                    {
+                                            @:</div><div class="row">&nbsp;</div>
+                                        }
+                                }
+                                
+                                
+                            }
+                        </div>
+                    </div>
+                    <div id="loadingDiv" style="text-align: center; display: none; margin-bottom: 20px;">
+                        <img alt="Loading" src="@Url.Content("~/images/ajax-loader.gif")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var BlockNumber = 2;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
+
+    $(function () {
+
+        $(".imgService").each(function (e) {
+            e.preventDefault;
+            var serviceId = $(this).prop('id');
+
+            var $image = $(this);
+            $.ajax({
+                type: "Get",
+                url: "@Url.Action("GetMyFirstServiceImage","Home")",
+                data: {
+                    serviceId: serviceId,
+                },
+                success: function (data) {
+                    if(data != "")
+                        $image.attr("src", "/Uploads/ServiceImages/" + data);
+                },
+            });
+
+        });
+    });
+
+    $('#btnSearch').click(function (e) {
+        e.preventDefault();
+        var serviceLoc = $('#Location').val();
+        var serviceType = "All";
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("","Results")",
+            data: {
+                location: serviceLoc,
+                type: serviceType,
+            },
+            success: function (data) {
+                location.reload(true);
+            },
+        });
+    });
+
+    $('#btnAllTypes').click(function (e) {
+        e.preventDefault();
+        var serviceLoc = $('#service-location').val();
+        var serviceType = "";
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetResult", "Results")",
+            data: {
+                location: serviceLoc,
+                type: serviceType,
+            },
+            success: function (data) {
+                // $("#divResults").empty();
+                //$("#divResults").html(data);
+                $("#serviceListDiv").empty();
+                $("#serviceListDiv").append(data.HTMLString);
+                $('#service-type').val('All');
+                NoMoreData = false;
+                inProgress = false;
+                BlockNumber = 2;
+                $(".imgService").each(function (e) {
+                                e.preventDefault;
+                                var serviceId = $(this).prop('id');
+
+                                var $image = $(this);
+                                $.ajax({
+                                    type: "Get",
+                                    url: "@Url.Action("GetMyFirstServiceImage","Home")",
+                                    data: {
+                                        serviceId: serviceId,
+                                    },
+                                    success: function (data) {
+                                        if(data != "")
+                                            $image.attr("src", "/Uploads/ServiceImages/" + data);
+                                    },
+                                });
+
+                            });
+            },
+        });
+    });
+
+    $('#btnFoodAndDining').click(function (e) {
+        e.preventDefault();
+        var serviceLoc = $('#service-location').val();
+        var serviceType = "Food And Dining";
+        $('service-type').val(serviceType);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetResult", "Results")",
+            data: {
+                location: serviceLoc,
+                type: serviceType,
+            },
+            success: function (data) {
+                // $("#divResults").empty();
+                //$("#divResults").html(data);
+                $("#serviceListDiv").empty();
+                $("#serviceListDiv").append(data.HTMLString);
+                $('#service-type').val(serviceType);
+                NoMoreData = false;
+                inProgress = false;
+                BlockNumber = 2;
+                  $(".imgService").each(function (e) {
+                                e.preventDefault;
+                                var serviceId = $(this).prop('id');
+
+                                var $image = $(this);
+                                $.ajax({
+                                    type: "Get",
+                                    url: "@Url.Action("GetMyFirstServiceImage","Home")",
+                                    data: {
+                                        serviceId: serviceId,
+                                    },
+                                    success: function (data) {
+                                        if(data != "")
+                                            $image.attr("src", "/Uploads/ServiceImages/" + data);
+                                    },
+                                });
+
+                            });
+            },
+        });
+
+    });
+
+     $('#btnHotelAndAccom').click(function (e) {
+        e.preventDefault();
+        var serviceLoc = $('#service-location').val();
+        var serviceType = "Hotel And Accomodations";
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetResult", "Results")",
+            data: {
+                location: serviceLoc,
+                type: serviceType,
+            },
+            success: function (data) {
+               // $("#divResults").empty();
+                //$("#divResults").html(data);
+                $("#serviceListDiv").empty();
+                $("#serviceListDiv").append(data.HTMLString);
+                $('#service-type').val(serviceType);
+                NoMoreData = false;
+                inProgress = false;
+                BlockNumber = 2;
+                  $(".imgService").each(function (e) {
+                                e.preventDefault;
+                                var serviceId = $(this).prop('id');
+
+                                var $image = $(this);
+                                $.ajax({
+                                    type: "Get",
+                                    url: "@Url.Action("GetMyFirstServiceImage","Home")",
+                                    data: {
+                                        serviceId: serviceId,
+                                    },
+                                    success: function (data) {
+                                        if(data != "")
+                                            $image.attr("src", "/Uploads/ServiceImages/" + data);
+                                    },
+                                });
+
+                            });
+            },
+        });
+    });
+
+
+    $(window).scroll(function () {
+        var serviceType = $('#service-type').val();
+        var serviceLoc = $('#service-location').val();
+
+        if (serviceType == 'All')
+            serviceType = '';
+
+        //if ($(window).scrollTop() == $(document).height() - $(window).height() && !NoMoreData && !inProgress) {
+        //if ($(window).scrollTop() + $(window).height() > $(document).height() && !NoMoreData && !inProgress) {
+        if ($(window).scrollTop() + window.innerHeight >= document.body.scrollHeight && !NoMoreData && !inProgress) {
+            inProgress = true;
+            $("#loadingDiv").show();
+            if (screen.width <= 480) {     
+            $.post("@Url.Action("InfinateScrollMobile", "Results")", { "location": serviceLoc, "type": serviceType, "BlockNumber": BlockNumber },
+                function (data) {
+
+                    BlockNumber = BlockNumber + 5;
+                    NoMoreData = data.NoMoreData;
+                    $("#serviceListDiv").append(data.HTMLString);
+                    $("#loadingDiv").hide();
+                    inProgress = false;
+
+                    $(".imgService").each(function (e) {
+                        e.preventDefault;
+                        var serviceId = $(this).prop('id');
+
+                        var $image = $(this);
+                        $.ajax({
+                            type: "Get",
+                            url: "@Url.Action("GetMyFirstServiceImage","Home")",
+                            data: {
+                                serviceId: serviceId,
+                            },
+                            success: function (data) {
+                                if (data != "")
+                                    $image.attr("src", "/Uploads/ServiceImages/" + data);
+                            },
+                        });
+
+                    });
+                });
+            }
+            else{
+
+            $.post("@Url.Action("InfinateScroll", "Results")", { "location": serviceLoc, "type": serviceType, "BlockNumber": BlockNumber },
+                function (data) {
+
+                    BlockNumber = BlockNumber + 1;
+                    NoMoreData = data.NoMoreData;
+                    $("#serviceListDiv").append(data.HTMLString);
+                    $("#loadingDiv").hide();
+                    inProgress = false;
+
+                    $(".imgService").each(function (e) {
+                        e.preventDefault;
+                        var serviceId = $(this).prop('id');
+
+                        var $image = $(this);
+                        $.ajax({
+                            type: "Get",
+                            url: "@Url.Action("GetMyFirstServiceImage","Home")",
+                            data: {
+                                serviceId: serviceId,
+                            },
+                            success: function (data) {
+                                if (data != "")
+                                    $image.attr("src", "/Uploads/ServiceImages/" + data);
+                            },
+                        });
+
+                    });
+                });
+        }
+        }
+    });
+
+
+</script>

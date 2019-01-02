@@ -27,7 +27,10 @@ namespace WhatsIn.Models
 
         [Required]
         [Display(Name = "Contact Number(s)")]
-        public string ContactNumber { get; set; }        
+        public string ContactNumber { get; set; }
+
+        [Display(Name = "Blog / Website Address")]
+        public string WebsiteAddress { get; set; }
     }
 
     public class ExternalLoginListViewModel

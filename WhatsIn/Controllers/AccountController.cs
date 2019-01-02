@@ -476,6 +476,7 @@ namespace WhatsIn.Controllers
                         ContactNumber = model.ContactNumber,
                         NameIdentifier = model.NameIdentifier,
                         ProfilePicture = model.ProfilePicture,
+                        WebsiteAddress = model.WebsiteAddress,
                         IsServiceExists = false,
                     };
 
